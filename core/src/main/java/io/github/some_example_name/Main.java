@@ -37,6 +37,8 @@ public class Main implements ApplicationListener {
         input();
         logic();
         draw();
+
+        int three = 3;
     }
 
     private void input() {
