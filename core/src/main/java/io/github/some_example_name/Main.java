@@ -1,9 +1,13 @@
 package io.github.some_example_name;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -17,6 +21,12 @@ public class Main implements ApplicationListener {
     SpriteBatch spriteBatch;
     FitViewport viewport;
 
+    Sprite catSprite;
+
+    float gravity = -10f;
+    float jumpSpeed = 5f;
+    float verticalVelocity = 0f;
+    float groundLevel = 0f;
 
     @Override
     public void create() {
@@ -25,6 +35,9 @@ public class Main implements ApplicationListener {
 
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
+
+        catSprite = new Sprite(catTexture);
+        catSprite.setSize(1, 1);
     }
 
     @Override
@@ -40,11 +53,30 @@ public class Main implements ApplicationListener {
     }
 
     private void input() {
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && catSprite.getY() <= groundLevel) {
+            verticalVelocity = jumpSpeed;
+        }
     }
 
     private void logic() {
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
 
+        float catWidth = catSprite.getWidth();
+        float catHeight = catSprite.getHeight();
+
+        catSprite.setX(MathUtils.clamp(catSprite.getX(), 0, worldWidth - catWidth));
+
+        float delta = Gdx.graphics.getDeltaTime();
+
+        verticalVelocity += delta * gravity;
+
+        catSprite.setY(catSprite.getY() + verticalVelocity * delta);
+
+        if (catSprite.getY() <= groundLevel) {
+            catSprite.setY(groundLevel);
+            verticalVelocity = 0;
+        }
     }
 
     private void draw() {
@@ -57,7 +89,7 @@ public class Main implements ApplicationListener {
         float worldHeight = viewport.getWorldHeight();
 
         spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
-        spriteBatch.draw(catTexture, 0, 0, 1, 1);
+        catSprite.draw(spriteBatch);
 
         spriteBatch.end();
     }
