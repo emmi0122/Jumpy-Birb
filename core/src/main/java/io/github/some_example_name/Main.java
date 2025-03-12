@@ -53,6 +53,10 @@ public class Main implements ApplicationListener {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         spriteBatch.begin();
 
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
         spriteBatch.draw(catTexture, 0, 0, 1, 1);
 
         spriteBatch.end();
