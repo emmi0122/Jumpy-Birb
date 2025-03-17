@@ -21,6 +21,11 @@ public class Main implements ApplicationListener {
     Texture backgroundTexture;
     Texture catTexture;
 
+    //platform
+    Texture platformStart;
+    Texture platformMiddle;
+    Texture platformEnd;
+
     //obstacles
     Texture chainLong;
     Texture chainShort;
@@ -58,6 +63,11 @@ public class Main implements ApplicationListener {
 
         catSprite = new Sprite(catTexture);
         catSprite.setSize(1, 1);
+
+        //platform
+        platformStart = new Texture("platform-left.png");
+        platformMiddle = new Texture("platform-middle.png");
+        platformEnd = new Texture("platform-right.png");
 
         //obstacle textures
         chainLong = new Texture("long_chain.png");
