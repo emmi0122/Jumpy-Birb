@@ -86,7 +86,7 @@ public class Main implements ApplicationListener {
     }
 
     private void input() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && catSprite.getY() <= groundLevel) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && catSprite.getY() >= groundLevel) {
             verticalVelocity = jumpSpeed;
         }
     }
