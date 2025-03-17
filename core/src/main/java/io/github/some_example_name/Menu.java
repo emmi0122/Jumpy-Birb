@@ -29,6 +29,8 @@ public class Menu implements Screen {
 
         //Bild från assets-filen
         skin = new Skin(Gdx.files.internal(""));
+
+        TextButton startButton = new TextButton("Start", skin);
     }
 
     @Override
