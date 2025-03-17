@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.math.Rectangle;
-
+import com.badlogic.gdx.Game;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
