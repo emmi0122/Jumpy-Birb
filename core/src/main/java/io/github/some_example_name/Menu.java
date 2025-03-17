@@ -30,7 +30,20 @@ public class Menu implements Screen {
         //Bild från assets-filen
         skin = new Skin(Gdx.files.internal(""));
 
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
         TextButton startButton = new TextButton("Start", skin);
+        startButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Skapa klass för spelskärmen?
+                //Användaren trycker på startknapp -> startar spelet
+
+                // - här anges isåfall kod för att byta till skärmklassen -
+            }
+        });
     }
 
     @Override
