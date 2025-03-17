@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -22,9 +23,7 @@ public class Main implements ApplicationListener {
     Texture catTexture;
 
     //platform
-    Texture platformStart;
-    Texture platformMiddle;
-    Texture platformEnd;
+    Texture platform;
 
     //obstacles
     Texture chainLong;
@@ -39,6 +38,7 @@ public class Main implements ApplicationListener {
     FitViewport viewport;
 
     Sprite catSprite;
+    Sprite platformSprite;
 
     float gravity = -10f;
     float jumpSpeed = 5f;
@@ -56,18 +56,25 @@ public class Main implements ApplicationListener {
     @Override
     public void create() {
         backgroundTexture = new Texture("Spooky-forest.png");
+
+        //platform texture
+        platform = new Texture("plat.png");
+
+        //character texture
         catTexture = new Texture("Cat.png");
 
         spriteBatch = new SpriteBatch();
-        viewport = new FitViewport(8, 5);
+        viewport = new FitViewport(10, 6);
 
+        //platform sprite and size
+        platformSprite = new Sprite(platform);
+        platformSprite.setSize(2, 1);
+
+        //character sprite and size
         catSprite = new Sprite(catTexture);
         catSprite.setSize(1, 1);
 
-        //platform
-        platformStart = new Texture("platform-left.png");
-        platformMiddle = new Texture("platform-middle.png");
-        platformEnd = new Texture("platform-right.png");
+
 
         //obstacle textures
         chainLong = new Texture("long_chain.png");
@@ -108,6 +115,12 @@ public class Main implements ApplicationListener {
         float catWidth = catSprite.getWidth();
         float catHeight = catSprite.getHeight();
 
+        float platformWidth = platformSprite.getWidth();
+        float platformHeight = platformSprite.getHeight();
+
+        platformSprite.setY(2);
+        platformSprite.setX(2);
+
         catSprite.setX(MathUtils.clamp(catSprite.getX(), 0, worldWidth - catWidth));
 
         float delta = Gdx.graphics.getDeltaTime();
@@ -116,10 +129,12 @@ public class Main implements ApplicationListener {
 
         catSprite.setY(catSprite.getY() + verticalVelocity * delta);
 
+        //Jumping mechanism
         if (catSprite.getY() <= groundLevel) {
             catSprite.setY(groundLevel);
             verticalVelocity = 0;
         }
+
     }
 
     private void updateObstacles() {
@@ -177,6 +192,7 @@ public class Main implements ApplicationListener {
         float worldHeight = viewport.getWorldHeight();
 
         spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
+        platformSprite.draw(spriteBatch);
         catSprite.draw(spriteBatch);
 
         for (Rectangle obstacle : topObstacles) {
