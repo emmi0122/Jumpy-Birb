@@ -13,14 +13,18 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.Game;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main implements ApplicationListener {
+
+    public enum GameState { MENU, PLAYING }
+    private GameState gameState = GameState.MENU;
+
     Texture backgroundTexture;
     Texture catTexture;
+    Texture menuTexture;
 
     //platform
     Texture platform;
@@ -32,7 +36,6 @@ public class Main implements ApplicationListener {
     Texture postLarge;
     Texture bladeTop;
     Texture bladeBottom;
-
 
     SpriteBatch spriteBatch;
     FitViewport viewport;
@@ -55,6 +58,11 @@ public class Main implements ApplicationListener {
 
     @Override
     public void create() {
+
+        /*bild för menybakgrund
+        menuTexture = new Texture("menybild");
+        */
+
         backgroundTexture = new Texture("Spooky-forest.png");
 
         //platform texture
@@ -73,8 +81,6 @@ public class Main implements ApplicationListener {
         //character sprite and size
         catSprite = new Sprite(catTexture);
         catSprite.setSize(1, 1);
-
-
 
         //obstacle textures
         chainLong = new Texture("long_chain.png");
@@ -96,10 +102,32 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
-        input();
+        /*
+        if (gameState == GameState.MENU) {
+            //render vad som syns i menyn
+            spriteBatch.draw(menuTexture, 2, 4, viewport.getWorldWidth(), viewport.getWorldHeight()); // <-- NY KOD
+            handleMenuInput();
+        }
+        else if (gameState == GameState.PLAYING) {
+            //render vad som syns i spelet
+            input();
+            logic();
+            updateObstacles();
+            draw();
+        }
+        */
+         input();
         logic();
         updateObstacles();
         draw();
+    }
+
+
+    public void handleMenuInput() {
+        //trycker spelaren Space i menyn startas spelet
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            gameState = GameState.PLAYING;
+        }
     }
 
     private void input() {
@@ -237,5 +265,7 @@ public class Main implements ApplicationListener {
         postLarge.dispose();
         postSmall.dispose();
         bladeTop.dispose();
+
+        // lägg till dispose för menuTexture
     }
 }

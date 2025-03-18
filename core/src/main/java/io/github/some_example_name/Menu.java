@@ -12,6 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 public class Menu implements Screen {
 
+    /*OBS diskutera med grupp om AL eller Gameklass för mainklassen.
+    Spelar roll beroende på om kod för meny skall göras i denna klass eller mainklass-
+    Lägger detta åt sidan fokuserat på att koda i main eftersom vi använder oss av Gameklass
+    */
+    /*
+    OBS
+
+    Görs menyklassen i Main ta bort denna klass
+     */
+
     private Game game;
     private Stage stage;
     private Skin skin;
@@ -27,7 +37,7 @@ public class Menu implements Screen {
         Gdx.input.setInputProcessor(stage);
 
 
-        //Bild från assets-filen
+        //lägg till bild från assets-filen
         skin = new Skin(Gdx.files.internal(""));
 
         Table table = new Table();
