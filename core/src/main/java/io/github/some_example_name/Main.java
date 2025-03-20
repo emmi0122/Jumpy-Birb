@@ -1,8 +1,9 @@
 package io.github.some_example_name;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,14 +18,10 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
-public class Main implements ApplicationListener {
+public class Main extends Game implements Screen {
 
-    public enum GameState { MENU, PLAYING }
-    private GameState gameState = GameState.MENU;
-
-    Texture backgroundTexture;
+    static Texture backgroundTexture;
     Texture catTexture;
-    Texture menuTexture;
 
     //platform
     Texture platform;
@@ -37,8 +34,8 @@ public class Main implements ApplicationListener {
     Texture bladeTop;
     Texture bladeBottom;
 
-    SpriteBatch spriteBatch;
-    FitViewport viewport;
+    static SpriteBatch spriteBatch;
+    static FitViewport viewport;
 
     Sprite catSprite;
     Sprite platformSprite;
@@ -58,10 +55,6 @@ public class Main implements ApplicationListener {
 
     @Override
     public void create() {
-
-        /*bild för menybakgrund
-        menuTexture = new Texture("menybild");
-        */
 
         backgroundTexture = new Texture("Spooky-forest.png");
 
@@ -93,6 +86,23 @@ public class Main implements ApplicationListener {
         //initialize obstacle storage
         topObstacles = new Array<>();
         bottomObstacles = new Array<>();
+
+        this.setScreen(new Menu(this));
+
+    }
+
+    public void startGame() {
+        setScreen(this);
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+
     }
 
     @Override
@@ -102,32 +112,12 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
-        /*
-        if (gameState == GameState.MENU) {
-            //render vad som syns i menyn
-            spriteBatch.draw(menuTexture, 2, 4, viewport.getWorldWidth(), viewport.getWorldHeight()); // <-- NY KOD
-            handleMenuInput();
-        }
-        else if (gameState == GameState.PLAYING) {
-            //render vad som syns i spelet
-            input();
-            logic();
-            updateObstacles();
-            draw();
-        }
-        */
-         input();
+
+        input();
         logic();
         updateObstacles();
         draw();
-    }
-
-
-    public void handleMenuInput() {
-        //trycker spelaren Space i menyn startas spelet
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            gameState = GameState.PLAYING;
-        }
+        super.render();//super.render() to run the menu
     }
 
     private void input() {
@@ -214,6 +204,7 @@ public class Main implements ApplicationListener {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+
         spriteBatch.begin();
 
         float worldWidth = viewport.getWorldWidth();
@@ -254,6 +245,11 @@ public class Main implements ApplicationListener {
     }
 
     @Override
+    public void hide() {
+
+    }
+
+    @Override
     public void dispose() {
         // Destroy application's resources here.
         spriteBatch.dispose();
@@ -266,6 +262,5 @@ public class Main implements ApplicationListener {
         postSmall.dispose();
         bladeTop.dispose();
 
-        // lägg till dispose för menuTexture
     }
 }

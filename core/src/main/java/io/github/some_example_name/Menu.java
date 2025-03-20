@@ -1,69 +1,69 @@
 package io.github.some_example_name;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
+//Class for swapping to MenuScreen to play the game
 public class Menu implements Screen {
 
-    /*OBS diskutera med grupp om AL eller Gameklass för mainklassen.
-    Spelar roll beroende på om kod för meny skall göras i denna klass eller mainklass-
-    Lägger detta åt sidan fokuserat på att koda i main eftersom vi använder oss av Gameklass
-    */
-    /*
-    OBS
+    private Main game;
+    private SpriteBatch spriteBatch;
+    private FitViewport viewport;
+    private Texture backgroundTexture;
+    private BitmapFont font;
 
-    Görs menyklassen i Main ta bort denna klass
-     */
-
-    private Game game;
-    private Stage stage;
-    private Skin skin;
-
-    public Menu(Game game) {
-
+    public Menu(Main game) {
         this.game = game;
     }
 
     @Override
     public void show() {
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        spriteBatch = new SpriteBatch();
+        viewport = new FitViewport(10, 6);
 
+        backgroundTexture = new Texture("Spooky-forest.png");
 
-        //lägg till bild från assets-filen
-        skin = new Skin(Gdx.files.internal(""));
+        font = new BitmapFont();
 
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+        float screenHeight = viewport.getWorldHeight();
+        float fontSize = screenHeight * 0.1f;
 
-        TextButton startButton = new TextButton("Start", skin);
-        startButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Skapa klass för spelskärmen?
-                //Användaren trycker på startknapp -> startar spelet
-
-                // - här anges isåfall kod för att byta till skärmklassen -
-            }
-        });
     }
 
     @Override
     public void render(float delta) {
 
+        ScreenUtils.clear(0, 0, 0, 1);
+
+        viewport.apply();
+        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+
+        spriteBatch.begin();
+        spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+
+        font.getData().setScale(0.1f);
+        font.draw(spriteBatch, "Press", 3, 5);
+        font.draw(spriteBatch, "SPACE", 3, 4);
+            font.draw(spriteBatch,"to", 3.5f, 3);
+                font.draw(spriteBatch,"START", 3, 2);
+
+
+        spriteBatch.end();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            game.startGame();
+        }
     }
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height, true);
     }
 
     @Override
@@ -83,7 +83,10 @@ public class Menu implements Screen {
 
     @Override
     public void dispose() {
-
+        spriteBatch.dispose();
+        backgroundTexture.dispose();
+        font.dispose();
     }
+
 
 }
