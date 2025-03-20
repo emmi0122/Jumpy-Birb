@@ -40,6 +40,7 @@ public class Main extends Game implements Screen {
     Sprite catSprite;
     Sprite platformSprite;
 
+    //Jumping system
     float gravity = -10f;
     float jumpSpeed = 5f;
     float verticalVelocity = 0f;
@@ -56,6 +57,7 @@ public class Main extends Game implements Screen {
     @Override
     public void create() {
 
+        //Background texture
         backgroundTexture = new Texture("Spooky-forest.png");
 
         //platform texture
@@ -112,7 +114,6 @@ public class Main extends Game implements Screen {
 
     @Override
     public void render() {
-
         input();
         logic();
         updateObstacles();
@@ -121,6 +122,7 @@ public class Main extends Game implements Screen {
     }
 
     private void input() {
+        //If space key is pressed, character jumps
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && catSprite.getY() >= groundLevel) {
             verticalVelocity = jumpSpeed;
         }
