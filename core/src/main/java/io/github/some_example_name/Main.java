@@ -1,9 +1,8 @@
 package io.github.some_example_name;
 
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -18,10 +17,14 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
-public class Main extends Game implements Screen {
+public class Main implements ApplicationListener {
 
-    static Texture backgroundTexture;
+    public enum GameState { MENU, PLAYING }
+    private GameState gameState = GameState.MENU;
+
+    Texture backgroundTexture;
     Texture catTexture;
+    Texture menuTexture;
 
     //platform
     Texture platform;
@@ -34,13 +37,12 @@ public class Main extends Game implements Screen {
     Texture bladeTop;
     Texture bladeBottom;
 
-    static SpriteBatch spriteBatch;
-    static FitViewport viewport;
+    SpriteBatch spriteBatch;
+    FitViewport viewport;
 
     Sprite catSprite;
     Sprite platformSprite;
 
-    //Jumping system
     float gravity = -10f;
     float jumpSpeed = 5f;
     float verticalVelocity = 0f;
@@ -57,7 +59,10 @@ public class Main extends Game implements Screen {
     @Override
     public void create() {
 
-        //Background texture
+        /*bild för menybakgrund
+        menuTexture = new Texture("menybild");
+        */
+
         backgroundTexture = new Texture("Spooky-forest.png");
 
         //platform texture
@@ -88,23 +93,6 @@ public class Main extends Game implements Screen {
         //initialize obstacle storage
         topObstacles = new Array<>();
         bottomObstacles = new Array<>();
-
-        this.setScreen(new Menu(this));
-
-    }
-
-    public void startGame() {
-        setScreen(this);
-    }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-
     }
 
     @Override
@@ -114,15 +102,35 @@ public class Main extends Game implements Screen {
 
     @Override
     public void render() {
-        input();
+        /*
+        if (gameState == GameState.MENU) {
+            //render vad som syns i menyn
+            spriteBatch.draw(menuTexture, 2, 4, viewport.getWorldWidth(), viewport.getWorldHeight()); // <-- NY KOD
+            handleMenuInput();
+        }
+        else if (gameState == GameState.PLAYING) {
+            //render vad som syns i spelet
+            input();
+            logic();
+            updateObstacles();
+            draw();
+        }
+        */
+         input();
         logic();
         updateObstacles();
         draw();
-        super.render();//super.render() to run the menu
+    }
+
+
+    public void handleMenuInput() {
+        //trycker spelaren Space i menyn startas spelet
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            gameState = GameState.PLAYING;
+        }
     }
 
     private void input() {
-        //If space key is pressed, character jumps
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && catSprite.getY() >= groundLevel) {
             verticalVelocity = jumpSpeed;
         }
@@ -206,7 +214,6 @@ public class Main extends Game implements Screen {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
-
         spriteBatch.begin();
 
         float worldWidth = viewport.getWorldWidth();
@@ -247,11 +254,6 @@ public class Main extends Game implements Screen {
     }
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         // Destroy application's resources here.
         spriteBatch.dispose();
@@ -264,5 +266,6 @@ public class Main extends Game implements Screen {
         postSmall.dispose();
         bladeTop.dispose();
 
+        // lägg till dispose för menuTexture
     }
 }
