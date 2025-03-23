@@ -30,10 +30,8 @@ public class Main implements ApplicationListener {
     Texture platform;
 
     //obstacles
-    Texture chainLong;
-    Texture chainShort;
-    Texture postSmall;
-    Texture postLarge;
+    Texture chainTexture;
+    Texture postTexture;
     Texture bladeTop;
     Texture bladeBottom;
 
@@ -54,6 +52,8 @@ public class Main implements ApplicationListener {
     private static final float GAP_HEIGHT = 2f;
     private Array<Rectangle> topObstacles;
     private Array<Rectangle> bottomObstacles;
+    private Array<Float> chainHeights;
+    private Array<Float> postHeights;
     private float spawnTimer = 0;
 
     @Override
@@ -83,16 +83,16 @@ public class Main implements ApplicationListener {
         catSprite.setSize(1, 1);
 
         //obstacle textures
-        chainLong = new Texture("long_chain.png");
-        chainShort = new Texture("short_chain.png");
-        postSmall = new Texture("small_post.png");
-        postLarge = new Texture("large_post.png");
+        chainTexture = new Texture("long_chain.png");
+        postTexture = new Texture("large_post.png");
         bladeTop = new Texture("blade_top.png");
         bladeBottom = new Texture("blade_bottom.png");
 
         //initialize obstacle storage
         topObstacles = new Array<>();
         bottomObstacles = new Array<>();
+        chainHeights = new Array<>();
+        postHeights = new Array<>();
     }
 
     @Override
@@ -173,18 +173,16 @@ public class Main implements ApplicationListener {
 
             float worldHeight = viewport.getWorldHeight();
 
-            //randomize whether to use long or short chain
-            boolean useLongChain = MathUtils.randomBoolean();
-            Texture selectedChain = useLongChain ? chainLong : chainShort;
-            Texture selectedPost = useLongChain ? postSmall : postLarge;
+            float chainHeight = MathUtils.random(1.0f, 1.5f);
+            float postHeight = MathUtils.random(0.8f, 1.2f);
 
-            float chainHeight = useLongChain ? 1.5f : 1.0f;
-            float postHeight = useLongChain ? 0.8f : 1.2f;
+            float bottomY = 0;
+            float topY = worldHeight - chainHeight;
 
-            float bottomY = (worldHeight - chainHeight) - GAP_HEIGHT - postHeight;
-
-            topObstacles.add(new Rectangle(8, worldHeight - chainHeight, 0.5f, 0.5f));
-            bottomObstacles.add(new Rectangle(8, bottomY, 0.5f, 0.5f));
+            bottomObstacles.add(new Rectangle(10, bottomY, 0.5f, 0.5f));
+            topObstacles.add(new Rectangle(10, topY, 0.5f, 0.5f));
+            chainHeights.add(chainHeight);
+            postHeights.add(postHeight);
 
             spawnTimer = 0;
 
@@ -199,6 +197,9 @@ public class Main implements ApplicationListener {
             for (int i = topObstacles.size - 1; i >= 0; i--) {
                 if (topObstacles.get(i).x + 0.5f < 0) {
                     topObstacles.removeIndex(i);
+                    bottomObstacles.removeIndex(i);
+                    chainHeights.removeIndex(i);
+                    postHeights.removeIndex(i);
                 }
             }
 
@@ -223,20 +224,18 @@ public class Main implements ApplicationListener {
         platformSprite.draw(spriteBatch);
         catSprite.draw(spriteBatch);
 
-        for (Rectangle obstacle : topObstacles) {
-            boolean useLongChain = obstacle.y > 4.0f;
-            Texture selectedChain = useLongChain ? chainLong : chainShort;
-            Texture selectedPost = useLongChain ? postSmall : postLarge;
+        for (int i = 0; i < topObstacles.size; i++) {
+            Rectangle top = topObstacles.get(i);
+            Rectangle bottom = bottomObstacles.get(i);
 
-            float chainHeight = useLongChain ? 1.5f : 1.0f;
-            float postHeight = useLongChain ? 0.8f : 1.2f;
+            float chainHeight = chainHeights.get(i);
+            float postHeight = postHeights.get(i);
 
-            spriteBatch.draw(selectedChain, obstacle.x, obstacle.y + 0.5f, 0.5f, chainHeight);
-            spriteBatch.draw(bladeTop, obstacle.x, obstacle.y, 0.5f, 0.5f);
+            spriteBatch.draw(chainTexture, top.x, top.y + 0.5f, 0.5f, chainHeight);
+            spriteBatch.draw(bladeTop, top.x, top.y, 0.5f, 0.5f);
 
-            float bottomY = (obstacle.y - chainHeight) - GAP_HEIGHT - postHeight;
-            spriteBatch.draw(selectedPost, obstacle.x, bottomY, 0.5f, postHeight);
-            spriteBatch.draw(bladeBottom, obstacle.x, bottomY + postHeight, 0.5f, 0.5f);
+            spriteBatch.draw(postTexture, bottom.x, bottom.y, 0.5f, postHeight);
+            spriteBatch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 0.5f, 0.5f);
         }
 
 
@@ -259,11 +258,9 @@ public class Main implements ApplicationListener {
         spriteBatch.dispose();
         backgroundTexture.dispose();
         catTexture.dispose();
-        chainLong.dispose();
-        chainShort.dispose();
+        chainTexture.dispose();
         bladeBottom.dispose();
-        postLarge.dispose();
-        postSmall.dispose();
+        postTexture.dispose();
         bladeTop.dispose();
 
         // lägg till dispose för menuTexture
