@@ -56,9 +56,9 @@ public class Menu implements Screen {
 
         spriteBatch.end();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            game.startGame();
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+//            game.startGame();
+//        }
     }
 
     @Override
