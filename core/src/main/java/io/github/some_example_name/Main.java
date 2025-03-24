@@ -50,8 +50,8 @@ public class Main extends Game implements Screen {
     float groundLevel = 0f;
 
     //Obstacle system
-    private static final float OBSTACLE_SPEED = 3f;
-    private static final float OBSTACLE_SPAWN_TIME = 1f;
+    private static final float OBSTACLE_SPEED = 1.5f;
+    private static final float OBSTACLE_SPAWN_TIME = 3f;
     private static final float GAP_HEIGHT = 2f;
     private Array<Rectangle> topObstacles;
     private Array<Rectangle> bottomObstacles;
@@ -213,8 +213,8 @@ public class Main extends Game implements Screen {
 
             float worldHeight = viewport.getWorldHeight();
 
-            float chainHeight = MathUtils.random(1.0f, 1.5f);
-            float postHeight = MathUtils.random(0.8f, 1.2f);
+            float chainHeight = MathUtils.random(1.0f, 2.5f);
+            float postHeight = MathUtils.random(0.8f, 2f);
 
             float bottomY = 0;
             float topY = worldHeight - chainHeight;
