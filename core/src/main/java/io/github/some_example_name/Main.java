@@ -150,7 +150,7 @@ public class Main implements ApplicationListener {
         platformSprite.setY(2);
         platformSprite.setX(2);
 
-        catSprite.setX(MathUtils.clamp(catSprite.getX(), 0, worldWidth - catWidth));
+        catSprite.setY(MathUtils.clamp(catSprite.getY(), 0, worldHeight - catWidth));
 
         float delta = Gdx.graphics.getDeltaTime();
 
