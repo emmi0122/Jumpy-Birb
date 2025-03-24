@@ -23,7 +23,11 @@ public class Main implements ApplicationListener {
 
     private GameState gameState = GameState.MENU;
 
-    Texture backgroundTexture;
+    // Background details
+    Texture background;
+    private float backgroundX;
+    private float backgroundSpeed;
+
     Texture catTexture;
     Texture menuTexture;
 
@@ -57,6 +61,8 @@ public class Main implements ApplicationListener {
     private Array<Float> postHeights;
     private float spawnTimer = 0;
 
+
+
     @Override
     public void create() {
 
@@ -64,7 +70,9 @@ public class Main implements ApplicationListener {
         menuTexture = new Texture("menybild");
         */
 
-        backgroundTexture = new Texture("Spooky-forest.png");
+        background = new Texture("Spooky-forest.png");
+        backgroundX = 0;
+        backgroundSpeed = 1.5f;
 
         //platform texture
         platform = new Texture("plat.png");
@@ -103,8 +111,8 @@ public class Main implements ApplicationListener {
 
     @Override
     public void render() {
-        /*
-        if (gameState == GameState.MENU) {
+
+        /*if (gameState == GameState.MENU) {
             //render vad som syns i menyn
             spriteBatch.draw(menuTexture, 2, 4, viewport.getWorldWidth(), viewport.getWorldHeight()); // <-- NY KOD
             handleMenuInput();
@@ -116,7 +124,9 @@ public class Main implements ApplicationListener {
             updateObstacles();
             draw();
         }
-        */
+
+         */
+
         input();
         logic();
         updateObstacles();
@@ -221,7 +231,16 @@ public class Main implements ApplicationListener {
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
-        spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
+        backgroundX -= backgroundSpeed * Gdx.graphics.getDeltaTime();
+        if (backgroundX <= -worldWidth) {
+            backgroundX = 0;
+        }
+
+        spriteBatch.draw(background, backgroundX, 0, worldWidth, worldHeight);
+        spriteBatch.draw(background, backgroundX + worldWidth, 0, worldWidth, worldHeight);
+
+
+        //spriteBatch.draw(background, 0, 0, worldWidth, worldHeight);
         platformSprite.draw(spriteBatch);
         catSprite.draw(spriteBatch);
 
@@ -257,7 +276,7 @@ public class Main implements ApplicationListener {
     public void dispose() {
         // Destroy application's resources here.
         spriteBatch.dispose();
-        backgroundTexture.dispose();
+        background.dispose();
         catTexture.dispose();
         chainTexture.dispose();
         bladeBottom.dispose();
