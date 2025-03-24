@@ -1,8 +1,8 @@
 package io.github.some_example_name;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,19 +13,17 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Game;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
-public class Main implements ApplicationListener {
+public class Main extends Game implements Screen {
 
-    public enum GameState {MENU, PLAYING}
-
-    private GameState gameState = GameState.MENU;
 
     Texture backgroundTexture;
     Texture catTexture;
-    Texture menuTexture;
+
 
     //platform
     Texture platform;
@@ -94,6 +92,22 @@ public class Main implements ApplicationListener {
         bottomObstacles = new Array<>();
         chainHeights = new Array<>();
         postHeights = new Array<>();
+
+        this.setScreen(new Menu(this));
+    }
+
+    public void startGame() {
+        setScreen(this);
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float v) {
+
     }
 
     @Override
@@ -121,15 +135,12 @@ public class Main implements ApplicationListener {
         logic();
         updateObstacles();
         draw();
+        super.render();
     }
 
 
-    public void handleMenuInput() {
-        //trycker spelaren Space i menyn startas spelet
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            gameState = GameState.PLAYING;
-        }
-    }
+
+
 
     private void input() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && catSprite.getY() >= groundLevel) {
@@ -251,6 +262,11 @@ public class Main implements ApplicationListener {
     @Override
     public void resume() {
         // Invoked when your application is resumed after pause.
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
