@@ -48,8 +48,8 @@ public class Main implements ApplicationListener {
     float groundLevel = 0f;
 
     //Obstacle system
-    private static final float OBSTACLE_SPEED = 200f;
-    private static final float OBSTACLE_SPAWN_TIME = 4.5f;
+    private static final float OBSTACLE_SPEED = 3f;
+    private static final float OBSTACLE_SPAWN_TIME = 1f;
     private static final float GAP_HEIGHT = 2f;
     private Array<Rectangle> topObstacles;
     private Array<Rectangle> bottomObstacles;
@@ -170,6 +170,14 @@ public class Main implements ApplicationListener {
         float delta = Gdx.graphics.getDeltaTime();
         spawnTimer += delta;
 
+        for (Rectangle obstacle : topObstacles) {
+            obstacle.x -= OBSTACLE_SPEED * delta;
+        }
+
+        for (Rectangle obstacle : bottomObstacles) {
+            obstacle.x -= OBSTACLE_SPEED * delta;
+        }
+
         if (spawnTimer > OBSTACLE_SPAWN_TIME) {
 
             float worldHeight = viewport.getWorldHeight();
@@ -186,14 +194,6 @@ public class Main implements ApplicationListener {
             postHeights.add(postHeight);
 
             spawnTimer = 0;
-
-            for (Rectangle obstacle : topObstacles) {
-                obstacle.x -= OBSTACLE_SPEED * delta;
-            }
-
-            for (Rectangle obstacle : bottomObstacles) {
-                obstacle.x -= OBSTACLE_SPEED * delta;
-            }
 
             for (int i = topObstacles.size - 1; i >= 0; i--) {
                 if (topObstacles.get(i).x + 0.5f < 0) {
