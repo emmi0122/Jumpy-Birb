@@ -149,7 +149,6 @@ public class Main extends Game implements Screen {
     }
 
     private void logic() {
-        float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
         float catWidth = catSprite.getWidth();
@@ -158,10 +157,15 @@ public class Main extends Game implements Screen {
         float platformWidth = platformSprite.getWidth();
         float platformHeight = platformSprite.getHeight();
 
+        //Create a rectangle for the cat, platform and obstacle
+        Rectangle catBounds = new Rectangle(catSprite.getX(), catSprite.getY(), catWidth, catHeight);
+        Rectangle platformBounds = new Rectangle(platformSprite.getX(), platformSprite.getY(), platformWidth, platformHeight);
+
         platformSprite.setY(2);
         platformSprite.setX(2);
 
         catSprite.setY(MathUtils.clamp(catSprite.getY(), 0, worldHeight - catWidth));
+        catSprite.setX(2.5f);
 
         float delta = Gdx.graphics.getDeltaTime();
 
@@ -169,12 +173,18 @@ public class Main extends Game implements Screen {
 
         catSprite.setY(catSprite.getY() + verticalVelocity * delta);
 
+        //Check if cat collides with platform
+        if (catBounds.overlaps(platformBounds)) {
+            //Stops the cat from colliding and go through the platform
+            catSprite.setY(platformSprite.getY() + platformSprite.getHeight());
+            verticalVelocity = 0;
+        }
+
         //Jumping mechanism
         if (catSprite.getY() <= groundLevel) {
             catSprite.setY(groundLevel);
             verticalVelocity = 0;
         }
-
     }
 
     private void updateObstacles() {
