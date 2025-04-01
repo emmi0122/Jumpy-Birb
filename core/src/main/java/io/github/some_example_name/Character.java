@@ -66,12 +66,6 @@ public class Character {
         else {
             isOnSolidSurface = false;
         }
-
-        if(sprite.getY() <= groundLevel) {
-            sprite.setY(groundLevel);
-            verticalVelocity = 0;
-            isOnSolidSurface = true;
-        }
     }
 
     public Rectangle getBounds() {
