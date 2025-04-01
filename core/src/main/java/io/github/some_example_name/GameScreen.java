@@ -86,6 +86,11 @@ public class GameScreen implements Screen {
         cat.update(delta, viewport.getWorldHeight(), platformBounds);
         obstacleManager.update(delta, viewport.getWorldHeight());
 
+        //Check to see if Cat collides
+        if (obstacleManager.checkCollision(cat.getBounds())) {
+            gameOver();
+        }
+
         spriteBatch.begin();
         drawBackground();
         platformSprite.draw(spriteBatch);
@@ -105,6 +110,11 @@ public class GameScreen implements Screen {
 
         spriteBatch.draw(background, backgroundX, 0, worldWidth, worldHeight);
         spriteBatch.draw(background, backgroundX + worldWidth, 0, worldWidth, worldHeight);
+    }
+
+//Sends player back to menu when losing
+    private void gameOver() {
+        game.setScreen(new Menu(game));
     }
 
     @Override public void resize(int width, int height) { viewport.update(width, height, true); }

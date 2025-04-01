@@ -82,5 +82,24 @@ public class ObstacleManager {
             batch.draw(postTexture, bottom.x, bottom.y, 0.5f, postHeight);
             batch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 0.5f, 0.5f);
         }
+
+
+    }
+
+    //Collisionmethod
+    public boolean checkCollision(Rectangle catBounds) {
+        for (Rectangle topObstacle : topObstacles) {
+            if (catBounds.overlaps(topObstacle)) {
+                return true;
+            }
+        }
+
+        for (Rectangle bottomObstacle : bottomObstacles) {
+            if (catBounds.overlaps(bottomObstacle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
