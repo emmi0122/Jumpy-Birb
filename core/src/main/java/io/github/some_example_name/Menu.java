@@ -15,7 +15,7 @@ public class Menu implements Screen {
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
     private Texture backgroundTexture;
-    private BitmapFont font;
+    private Texture startTextTexture;
 
     public Menu(Main game) {
         this.game = game;
@@ -26,7 +26,7 @@ public class Menu implements Screen {
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(10, 6);
         backgroundTexture = new Texture("Spooky-forest.png");
-        font = new BitmapFont();
+        startTextTexture = new Texture("start-text.png");
     }
 
     @Override
@@ -38,11 +38,7 @@ public class Menu implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        font.getData().setScale(0.1f);
-        font.draw(spriteBatch, "Press", 2, 6);
-        font.draw(spriteBatch, "SPACE", 2, 5);
-        font.draw(spriteBatch,"to", 2.5f, 4);
-        font.draw(spriteBatch,"START", 2, 3);
+        spriteBatch.draw(startTextTexture, 2, 2, 6, 3);
 
         spriteBatch.end();
 
@@ -58,6 +54,6 @@ public class Menu implements Screen {
     @Override public void dispose() {
         spriteBatch.dispose();
         backgroundTexture.dispose();
-        font.dispose();
+        startTextTexture.dispose();
     }
 }
