@@ -80,7 +80,7 @@ public class GameScreen implements Screen {
             platformSprite.getX(),
             platformSprite.getY(),
             platformSprite.getWidth(),
-            platformSprite.getHeight()
+            0.65f
         );
 
         cat.update(delta, viewport.getWorldHeight(), platformBounds);
