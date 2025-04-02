@@ -19,7 +19,7 @@ public class Character {
 
     public Character(Texture texture) {
         this.sprite = new Sprite(texture);
-        this.sprite.setSize(1, 1);
+        this.sprite.setSize(0.8f, 0.8f);
         this.sprite.setPosition(2.5f, 2f);
     }
 
