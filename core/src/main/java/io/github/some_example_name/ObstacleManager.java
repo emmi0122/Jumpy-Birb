@@ -52,8 +52,8 @@ public class ObstacleManager {
         float topY = worldHeight - chainHeight;
         float bottomY = 0;
 
-        topObstacles.add(new Rectangle(10, topY, 0.5f, 0.5f));
-        bottomObstacles.add(new Rectangle(10, bottomY, 0.5f, 0.5f));
+        topObstacles.add(new Rectangle(10, topY, 0.5f, chainHeight));
+        bottomObstacles.add(new Rectangle(10, bottomY, 0.5f, postHeight));
         chainHeights.add(chainHeight);
         postHeights.add(postHeight);
     }
