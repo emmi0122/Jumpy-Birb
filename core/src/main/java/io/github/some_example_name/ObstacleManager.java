@@ -26,7 +26,8 @@ public class ObstacleManager {
         this.bladeBottom = bottom;
     }
 
-    public void update(float delta, float worldHeight) {
+    public void update(float delta, float worldHeight, boolean gameStarted) {
+        if(!gameStarted) return;
         spawnTimer += delta;
 
         for (Rectangle r : topObstacles) {
@@ -45,6 +46,7 @@ public class ObstacleManager {
         removeOffscreenObstacles();
     }
 
+    //method for random spawning of obstacles
     private void spawnObstacle(float worldHeight) {
         float chainHeight = MathUtils.random(1.0f, 2.5f);
         float postHeight = MathUtils.random(0.8f, 2f);
@@ -58,6 +60,7 @@ public class ObstacleManager {
         postHeights.add(postHeight);
     }
 
+    //method for removing obstacles that passed the left edge of the screen
     private void removeOffscreenObstacles() {
         for (int i = topObstacles.size - 1; i >= 0; i--) {
             if (topObstacles.get(i).x + 0.5f < 0) {

@@ -84,7 +84,7 @@ public class GameScreen implements Screen {
         );
 
         cat.update(delta, viewport.getWorldHeight(), platformBounds);
-        obstacleManager.update(delta, viewport.getWorldHeight());
+        obstacleManager.update(delta, viewport.getWorldHeight(), gameStarted);
 
         //Check to see if Cat collides
         if (obstacleManager.checkCollision(cat.getBounds())) {
@@ -95,7 +95,10 @@ public class GameScreen implements Screen {
         drawBackground();
         platformSprite.draw(spriteBatch);
         cat.draw(spriteBatch);
-        obstacleManager.draw(spriteBatch);
+        if(gameStarted){
+
+            obstacleManager.draw(spriteBatch);
+        }
         spriteBatch.end();
     }
 
@@ -103,7 +106,10 @@ public class GameScreen implements Screen {
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
 
-        backgroundX -= backgroundSpeed * Gdx.graphics.getDeltaTime();
+        if(gameStarted) {
+            backgroundX -= backgroundSpeed * Gdx.graphics.getDeltaTime();
+        }
+
         if (backgroundX <= -worldWidth) {
             backgroundX = 0;
         }
