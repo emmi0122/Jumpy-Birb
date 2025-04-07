@@ -42,7 +42,7 @@ public class Menu implements Screen {
 
         spriteBatch.end();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             game.startGame();
         }
     }
