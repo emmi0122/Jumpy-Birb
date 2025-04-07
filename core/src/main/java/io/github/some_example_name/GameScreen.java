@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
         Rectangle platformBounds = new Rectangle(
             platformSprite.getX(),
             platformSprite.getY(),
-            platformSprite.getWidth(),
+            1.5f,
             0.65f
         );
 
