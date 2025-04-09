@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class ObstacleManager {
 
-    private static final float OBSTACLE_SPEED = 1.5f;
-    private static final float OBSTACLE_SPAWN_TIME = 3f;
+    private static final float OBSTACLE_SPEED = 150;
+    private static final float OBSTACLE_SPAWN_TIME = 300f;
 
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
