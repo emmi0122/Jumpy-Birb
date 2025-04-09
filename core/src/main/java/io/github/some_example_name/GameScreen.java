@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,6 +28,9 @@ public class GameScreen implements Screen {
 
     private Character cat;
     private ObstacleManager obstacleManager;
+
+    private BitmapFont font;
+    private int points = 0;
 
     private boolean gameStarted = false;
 
@@ -56,6 +60,11 @@ public class GameScreen implements Screen {
 
         cat = new Character(catTexture);
         obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom);
+
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.setUseIntegerPositions(false);
+        font.getData().setScale(0.05f);
     }
 
     @Override
@@ -99,7 +108,16 @@ public class GameScreen implements Screen {
 
             obstacleManager.draw(spriteBatch);
         }
+
+        font.draw(spriteBatch, "Score: " + points, 0f, 6f);
+
         spriteBatch.end();
+    }
+
+    private void addPoints(float x, float y) {
+        if(cat.getBounds().x == obstacleManager.getObstacleBounds()) {
+            points++;
+        }
     }
 
     private void drawBackground() {
