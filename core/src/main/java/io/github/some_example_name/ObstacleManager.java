@@ -105,4 +105,8 @@ public class ObstacleManager {
 
         return false;
     }
+
+    public float getObstacleBounds() {
+        return topObstacles.first().getX();
+    }
 }
