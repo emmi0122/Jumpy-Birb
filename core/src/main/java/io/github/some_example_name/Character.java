@@ -69,7 +69,7 @@ public class Character {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(sprite.getX(), sprite.getY(), 0.58f, 0.58f);
+        return new Rectangle(sprite.getX(), sprite.getY(), 60f, 60f);
     }
 
     public void draw(com.badlogic.gdx.graphics.g2d.SpriteBatch batch) {

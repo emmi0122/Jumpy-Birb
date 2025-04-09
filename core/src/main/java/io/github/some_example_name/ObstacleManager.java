@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class ObstacleManager {
 
-    private static final float OBSTACLE_SPEED = 150;
-    private static final float OBSTACLE_SPAWN_TIME = 300f;
+    private static final float OBSTACLE_SPEED = 150f;
+    private static final float OBSTACLE_SPAWN_TIME = 3f;
 
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
@@ -48,14 +48,14 @@ public class ObstacleManager {
 
     //method for random spawning of obstacles
     private void spawnObstacle(float worldHeight) {
-        float chainHeight = MathUtils.random(1.0f, 2.5f);
-        float postHeight = MathUtils.random(0.8f, 2f);
+        float chainHeight = MathUtils.random(100f, 250f);
+        float postHeight = MathUtils.random(80f, 200f);
 
         float topY = worldHeight - chainHeight;
         float bottomY = 0;
 
-        topObstacles.add(new Rectangle(10, topY, 0.5f, chainHeight));
-        bottomObstacles.add(new Rectangle(10, bottomY, 0.5f, postHeight));
+        topObstacles.add(new Rectangle(1000, topY, 100f, chainHeight));
+        bottomObstacles.add(new Rectangle(1000, bottomY, 100f, postHeight));
         chainHeights.add(chainHeight);
         postHeights.add(postHeight);
     }
@@ -63,7 +63,7 @@ public class ObstacleManager {
     //method for removing obstacles that passed the left edge of the screen
     private void removeOffscreenObstacles() {
         for (int i = topObstacles.size - 1; i >= 0; i--) {
-            if (topObstacles.get(i).x + 0.5f < 0) {
+            if (topObstacles.get(i).x + 50f < 0) {
                 topObstacles.removeIndex(i);
                 bottomObstacles.removeIndex(i);
                 chainHeights.removeIndex(i);
@@ -79,11 +79,11 @@ public class ObstacleManager {
             float chainHeight = chainHeights.get(i);
             float postHeight = postHeights.get(i);
 
-            batch.draw(chainTexture, top.x, top.y + 0.5f, 0.5f, chainHeight);
-            batch.draw(bladeTop, top.x, top.y, 0.5f, 0.5f);
+            batch.draw(chainTexture, top.x, top.y + 50f, 50f, chainHeight);
+            batch.draw(bladeTop, top.x, top.y, 50f, 50f);
 
-            batch.draw(postTexture, bottom.x, bottom.y, 0.5f, postHeight);
-            batch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 0.5f, 0.5f);
+            batch.draw(postTexture, bottom.x, bottom.y, 50f, postHeight);
+            batch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 50f, 50f);
         }
 
 
