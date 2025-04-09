@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 public class Character {
 
     private Sprite sprite;
-    private float gravity = -10f;
-    private float jumpSpeed = 5f;
+    private float gravity = -1000;
+    private float jumpSpeed = 500;
     private float verticalVelocity = 0f;
     private float groundLevel = 0f;
     private boolean hasJumped = false;
@@ -19,8 +19,8 @@ public class Character {
 
     public Character(Texture texture) {
         this.sprite = new Sprite(texture);
-        this.sprite.setSize(0.8f, 0.8f);
-        this.sprite.setPosition(2.5f, 2f);
+        this.sprite.setSize(80, 80);
+        this.sprite.setPosition(270, 260);
     }
 
     public void update(float delta, float worldHeight, Rectangle platformBounds) {

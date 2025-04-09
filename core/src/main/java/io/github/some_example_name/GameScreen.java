@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         spriteBatch = new SpriteBatch();
-        viewport = new FitViewport(10, 6);
+        viewport = new FitViewport(1000, 600);
 
         background = new Texture("Spooky-forest.png");
         catTexture = new Texture("Cat.png");
@@ -52,11 +52,11 @@ public class GameScreen implements Screen {
         bladeBottom = new Texture("blade_bottom.png");
 
         platformSprite = new Sprite(platformTexture);
-        platformSprite.setSize(2, 1);
-        platformSprite.setPosition(2, 2);
+        platformSprite.setSize(200, 100);
+        platformSprite.setPosition(200, 200);
 
         backgroundX = 0;
-        backgroundSpeed = 1.5f;
+        backgroundSpeed = 150;
 
         cat = new Character(catTexture);
         obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom);
@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.setUseIntegerPositions(false);
-        font.getData().setScale(0.05f);
+        font.getData().setScale(2);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class GameScreen implements Screen {
         Rectangle platformBounds = new Rectangle(
             platformSprite.getX(),
             platformSprite.getY(),
-            1.5f,
-            0.65f
+            100,
+            64
         );
 
         cat.update(delta, viewport.getWorldHeight(), platformBounds);
@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
             obstacleManager.draw(spriteBatch);
         }
 
-        font.draw(spriteBatch, "Score: " + points, 0f, 6f);
+        font.draw(spriteBatch, "Score: " + points, 10, 590);
 
         spriteBatch.end();
     }
