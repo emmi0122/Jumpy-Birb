@@ -114,12 +114,6 @@ public class GameScreen implements Screen {
         spriteBatch.end();
     }
 
-    private void addPoints(float x, float y) {
-        if(cat.getBounds().x == obstacleManager.getObstacleBounds()) {
-            points++;
-        }
-    }
-
     private void drawBackground() {
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
