@@ -17,6 +17,9 @@ public class GameScreen implements Screen {
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
 
+    private Score score;
+    private float lastObstacleX = -1;
+
     private Texture background;
     private float backgroundX;
     private float backgroundSpeed;
@@ -41,7 +44,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         spriteBatch = new SpriteBatch();
-        viewport = new FitViewport(1000, 600);
+        viewport = new FitViewport(10, 6);
 
         background = new Texture("Spooky-forest.png");
         catTexture = new Texture("Cat.png");
@@ -52,11 +55,11 @@ public class GameScreen implements Screen {
         bladeBottom = new Texture("blade_bottom.png");
 
         platformSprite = new Sprite(platformTexture);
-        platformSprite.setSize(200, 100);
-        platformSprite.setPosition(200, 200);
+        platformSprite.setSize(2, 1);
+        platformSprite.setPosition(2, 2);
 
         backgroundX = 0;
-        backgroundSpeed = 150;
+        backgroundSpeed = 1.5f;
 
         cat = new Character(catTexture);
         obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom);
@@ -64,7 +67,9 @@ public class GameScreen implements Screen {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         font.setUseIntegerPositions(false);
-        font.getData().setScale(2);
+        font.getData().setScale(0.05f);
+
+        score = new Score();
     }
 
     @Override
@@ -88,12 +93,18 @@ public class GameScreen implements Screen {
         Rectangle platformBounds = new Rectangle(
             platformSprite.getX(),
             platformSprite.getY(),
-            100,
-            64
+            1.5f,
+            0.65f
         );
 
         cat.update(delta, viewport.getWorldHeight(), platformBounds);
         obstacleManager.update(delta, viewport.getWorldHeight(), gameStarted);
+
+        float nextObstacleX = obstacleManager.getNextUnscoredObstacleX();
+        if(gameStarted && nextObstacleX != -1 && cat.getBounds().x > nextObstacleX) {
+            score.addScore(10);
+            obstacleManager.markObstaclesAsScored(nextObstacleX);
+        }
 
         //Check to see if Cat collides
         if (obstacleManager.checkCollision(cat.getBounds())) {
@@ -109,9 +120,15 @@ public class GameScreen implements Screen {
             obstacleManager.draw(spriteBatch);
         }
 
-        font.draw(spriteBatch, "Score: " + points, 10, 590);
+        font.draw(spriteBatch, "Score: " + score.getCurrentScore(), 0f, 6f);
 
         spriteBatch.end();
+    }
+
+    private void addPoints(float x, float y) {
+        if(cat.getBounds().x == obstacleManager.getObstacleBounds()) {
+            points++;
+        }
     }
 
     private void drawBackground() {
@@ -130,7 +147,7 @@ public class GameScreen implements Screen {
         spriteBatch.draw(background, backgroundX + worldWidth, 0, worldWidth, worldHeight);
     }
 
-//Sends player back to menu when losing
+    //Sends player back to menu when losing
     private void gameOver() {
         game.setScreen(new Menu(game));
     }
