@@ -17,6 +17,9 @@ public class GameScreen implements Screen {
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
 
+    private Score score;
+    private float lastObstacleX = -1;
+
     private Texture background;
     private float backgroundX;
     private float backgroundSpeed;
@@ -65,6 +68,8 @@ public class GameScreen implements Screen {
         font.setColor(Color.WHITE);
         font.setUseIntegerPositions(false);
         font.getData().setScale(0.05f);
+
+        score = new Score();
     }
 
     @Override
@@ -95,6 +100,12 @@ public class GameScreen implements Screen {
         cat.update(delta, viewport.getWorldHeight(), platformBounds);
         obstacleManager.update(delta, viewport.getWorldHeight(), gameStarted);
 
+        float nextObstacleX = obstacleManager.getNextUnscoredObstacleX();
+        if(gameStarted && nextObstacleX != -1 && cat.getBounds().x > nextObstacleX) {
+            score.addScore(10);
+            obstacleManager.markObstaclesAsScored(nextObstacleX);
+        }
+
         //Check to see if Cat collides
         if (obstacleManager.checkCollision(cat.getBounds())) {
             gameOver();
@@ -109,7 +120,7 @@ public class GameScreen implements Screen {
             obstacleManager.draw(spriteBatch);
         }
 
-        font.draw(spriteBatch, "Score: " + points, 0f, 6f);
+        font.draw(spriteBatch, "Score: " + score.getCurrentScore(), 0f, 6f);
 
         spriteBatch.end();
     }

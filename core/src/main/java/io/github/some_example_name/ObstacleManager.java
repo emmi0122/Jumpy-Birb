@@ -17,6 +17,7 @@ public class ObstacleManager {
     private Array<Rectangle> bottomObstacles = new Array<>();
     private Array<Float> chainHeights = new Array<>();
     private Array<Float> postHeights = new Array<>();
+    private Array<Boolean> scoredObstacles = new Array<>();
     private float spawnTimer = 0;
 
     public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom) {
@@ -54,6 +55,8 @@ public class ObstacleManager {
         float topY = worldHeight - chainHeight;
         float bottomY = 0;
 
+        scoredObstacles.add(false);
+
         topObstacles.add(new Rectangle(10, topY, 0.5f, chainHeight));
         bottomObstacles.add(new Rectangle(10, bottomY, 0.5f, postHeight));
         chainHeights.add(chainHeight);
@@ -68,6 +71,7 @@ public class ObstacleManager {
                 bottomObstacles.removeIndex(i);
                 chainHeights.removeIndex(i);
                 postHeights.removeIndex(i);
+                scoredObstacles.removeIndex(i);
             }
         }
     }
@@ -104,6 +108,24 @@ public class ObstacleManager {
         }
 
         return false;
+    }
+
+    public float getNextUnscoredObstacleX() {
+        for (int i = 0; i < topObstacles.size; i++) {
+            if (!scoredObstacles.get(i)) {
+                return topObstacles.get(i).x;
+            }
+        }
+        return -1;
+    }
+
+    public void markObstaclesAsScored(float x){
+        for(int i = 0; i < topObstacles.size; i++){
+            if (!scoredObstacles.get(i) && topObstacles.get(i).x == x) {
+                scoredObstacles.set(i, true);
+                break;
+            }
+        }
     }
 
     public float getObstacleBounds() {
