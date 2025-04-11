@@ -49,7 +49,7 @@ public class ObstacleManager {
 
     //method for random spawning of obstacles
     private void spawnObstacle(float worldHeight) {
-        float chainHeight = MathUtils.random(100f, 250f);
+        float chainHeight = MathUtils.random(100f, 190f);
         float postHeight = MathUtils.random(80f, 200f);
 
         float topY = worldHeight - chainHeight;
