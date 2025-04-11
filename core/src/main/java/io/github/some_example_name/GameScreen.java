@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
 
         float nextObstacleX = obstacleManager.getNextUnscoredObstacleX();
         if(gameStarted && nextObstacleX != -1 && cat.getBounds().x > nextObstacleX) {
-            score.addScore(10);
+            score.addScore(1);
             obstacleManager.markObstaclesAsScored(nextObstacleX);
         }
 
