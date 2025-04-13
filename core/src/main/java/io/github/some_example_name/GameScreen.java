@@ -1,7 +1,7 @@
 package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class GameScreen implements Screen {
+public class GameScreen extends ScreenAdapter {
 
     private Main game;
     private SpriteBatch spriteBatch;
@@ -149,13 +149,8 @@ public class GameScreen implements Screen {
 
     //Sends player back to menu when losing
     private void gameOver() {
-        game.setScreen(new Menu(game));
+        game.setScreen(new HighScoreScreen(game, score.getCurrentScore(), score.getHighScore()));
     }
-
-    @Override public void resize(int width, int height) { viewport.update(width, height, true); }
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
 
     @Override
     public void dispose() {
