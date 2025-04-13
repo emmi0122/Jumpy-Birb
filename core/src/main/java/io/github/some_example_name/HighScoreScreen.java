@@ -18,12 +18,12 @@ public class HighScoreScreen extends ScreenAdapter {
     private Texture background;
 
     private int currentScore;
-    private int highScore;
+    private Score score;
 
     public HighScoreScreen(Main game, int currentScore, int highScore) {
         this.game = game;
         this.currentScore = currentScore;
-        this.highScore = highScore;
+        this.score = new Score();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class HighScoreScreen extends ScreenAdapter {
 
         font.draw(spriteBatch, "Game Over", 350, 500);
         font.draw(spriteBatch, "Score: " + currentScore, 350, 400);
-        font.draw(spriteBatch, "High Score: " + highScore, 350, 330);
+        font.draw(spriteBatch, "High Score: " + score.getHighScore(), 350, 330);
         font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
 
         spriteBatch.end();
