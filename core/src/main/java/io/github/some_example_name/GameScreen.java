@@ -101,6 +101,7 @@ public class GameScreen extends ScreenAdapter {
         obstacleManager.update(delta, viewport.getWorldHeight(), gameStarted);
 
         float nextObstacleX = obstacleManager.getNextUnscoredObstacleX();
+
         if(gameStarted && nextObstacleX != -1 && cat.getBounds().x > nextObstacleX) {
             score.addScore(1);
             obstacleManager.markObstaclesAsScored(nextObstacleX);
@@ -115,8 +116,8 @@ public class GameScreen extends ScreenAdapter {
         drawBackground();
         platformSprite.draw(spriteBatch);
         cat.draw(spriteBatch);
-        if(gameStarted){
 
+        if(gameStarted) {
             obstacleManager.draw(spriteBatch);
         }
 

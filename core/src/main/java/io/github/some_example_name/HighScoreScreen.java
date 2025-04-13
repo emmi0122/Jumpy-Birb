@@ -2,7 +2,7 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class HighScoreScreen implements Screen {
+public class HighScoreScreen extends ScreenAdapter {
     private Main game;
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -30,10 +30,12 @@ public class HighScoreScreen implements Screen {
     public void show() {
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(1000, 600);
+
+        background = new Texture("Spooky-forest.png");
+
         font = new BitmapFont();
         font.getData().setScale(3);
         font.setColor(Color.WHITE);
-        background = new Texture("Spooky-forest.png");
     }
 
     @Override
