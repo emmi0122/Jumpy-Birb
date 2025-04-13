@@ -40,7 +40,7 @@ public class HighScoreScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0, 1);
+        ScreenUtils.clear(Color.BLACK);
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
 
@@ -55,7 +55,7 @@ public class HighScoreScreen extends ScreenAdapter {
         spriteBatch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            game.startGame();
+            game.setScreen(new GameScreen(game));
         }
     }
 
@@ -74,5 +74,4 @@ public class HighScoreScreen extends ScreenAdapter {
         font.dispose();
         background.dispose();
     }
-
 }

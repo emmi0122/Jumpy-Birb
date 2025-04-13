@@ -12,4 +12,5 @@ public class Main extends Game {
     public void startGame() {
         setScreen(new GameScreen(this));
     }
+
 }

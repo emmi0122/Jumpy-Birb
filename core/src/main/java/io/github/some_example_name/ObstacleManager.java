@@ -89,8 +89,6 @@ public class ObstacleManager {
             batch.draw(postTexture, bottom.x, bottom.y, 50f, postHeight);
             batch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 50f, 50f);
         }
-
-
     }
 
     //Collisionmethod
