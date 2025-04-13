@@ -24,7 +24,7 @@ public class Menu implements Screen {
     @Override
     public void show() {
         spriteBatch = new SpriteBatch();
-        viewport = new FitViewport(10, 6);
+        viewport = new FitViewport(1000, 600);
         backgroundTexture = new Texture("Spooky-forest.png");
         startTextTexture = new Texture("main-menu.png");
     }
@@ -38,7 +38,7 @@ public class Menu implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        spriteBatch.draw(startTextTexture, -0.3f, 1, 8, 5);
+        spriteBatch.draw(startTextTexture, -25f, 35, 800, 500);
 
         spriteBatch.end();
 
