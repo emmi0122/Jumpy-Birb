@@ -66,7 +66,7 @@ public class ObstacleManager {
     //method for removing obstacles that passed the left edge of the screen
     private void removeOffscreenObstacles() {
         for (int i = topObstacles.size - 1; i >= 0; i--) {
-            if (topObstacles.get(i).x + 0.5f < 0) {
+            if (topObstacles.get(i).x + 100f < 0) {
                 topObstacles.removeIndex(i);
                 bottomObstacles.removeIndex(i);
                 chainHeights.removeIndex(i);
