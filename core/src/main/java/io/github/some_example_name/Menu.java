@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Menu implements Screen {
 
+    private Texture cat;
+    private Texture platform;
     private Main game;
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -27,6 +29,8 @@ public class Menu implements Screen {
         viewport = new FitViewport(1000, 600);
         backgroundTexture = new Texture("Spooky-forest.png");
         startTextTexture = new Texture("main-menu.png");
+        cat = new Texture("Cat.png");
+        platform = new Texture("plat.png");
     }
 
     @Override
@@ -38,7 +42,10 @@ public class Menu implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        spriteBatch.draw(startTextTexture, -25f, 35, 800, 500);
+        spriteBatch.draw(startTextTexture, 400, 150, 450, 400);
+        spriteBatch.draw(platform, 200, 200, 200, 100);
+        spriteBatch.draw(cat, 270, 264, 80, 80);
+
 
         spriteBatch.end();
 
@@ -55,5 +62,6 @@ public class Menu implements Screen {
         spriteBatch.dispose();
         backgroundTexture.dispose();
         startTextTexture.dispose();
+        cat.dispose();
     }
 }
