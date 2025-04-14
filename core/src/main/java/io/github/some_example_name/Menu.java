@@ -42,7 +42,7 @@ public class Menu implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        spriteBatch.draw(startTextTexture, 400, 150, 450, 400);
+        spriteBatch.draw(startTextTexture, 400, 100, 450, 400);
         spriteBatch.draw(platform, 200, 200, 200, 100);
         spriteBatch.draw(cat, 270, 264, 80, 80);
 
