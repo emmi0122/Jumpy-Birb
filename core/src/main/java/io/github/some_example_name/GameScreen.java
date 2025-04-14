@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +18,8 @@ public class GameScreen extends ScreenAdapter {
     private Main game;
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
+
+    private Music gameMusic;
 
     private Score score;
     private float lastObstacleX = -1;
@@ -53,6 +57,11 @@ public class GameScreen extends ScreenAdapter {
         postTexture = new Texture("large_post.png");
         bladeTop = new Texture("blade_top.png");
         bladeBottom = new Texture("blade_bottom.png");
+
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("noxarcana.mp3"));
+        gameMusic.setLooping(true);
+        gameMusic.setVolume(0.5f);
+        gameMusic.play();
 
         platformSprite = new Sprite(platformTexture);
         platformSprite.setSize(200, 100);
@@ -172,5 +181,6 @@ public class GameScreen extends ScreenAdapter {
         postTexture.dispose();
         bladeTop.dispose();
         bladeBottom.dispose();
+        if (gameMusic != null) gameMusic.dispose();
     }
 }

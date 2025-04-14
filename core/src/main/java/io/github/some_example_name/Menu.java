@@ -3,6 +3,7 @@ package io.github.some_example_name;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,7 @@ public class Menu implements Screen {
     private FitViewport viewport;
     private Texture backgroundTexture;
     private Texture startTextTexture;
+    private Music menuMusic;
 
     public Menu(Main game) {
         this.game = game;
@@ -31,6 +33,11 @@ public class Menu implements Screen {
         startTextTexture = new Texture("main-menu.png");
         cat = new Texture("Cat.png");
         platform = new Texture("plat.png");
+
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("adventure.mp3"));
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(0.5f);
+        menuMusic.play();
     }
 
     @Override
@@ -50,6 +57,7 @@ public class Menu implements Screen {
         spriteBatch.end();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            menuMusic.stop();
             game.startGame();
         }
     }
@@ -63,5 +71,6 @@ public class Menu implements Screen {
         backgroundTexture.dispose();
         startTextTexture.dispose();
         cat.dispose();
+        if (menuMusic != null) menuMusic.dispose();
     }
 }
