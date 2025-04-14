@@ -85,14 +85,4 @@ public class Character {
     public Sprite getSprite() {
         return sprite;
     }
-
-    public void drawDebug(ShapeRenderer shapeRenderer) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.CORAL); // valfri färg
-
-            shapeRenderer.rect(sprite.getX() + 20f, sprite.getY() + 20f, 35f, 35f);
-
-
-        shapeRenderer.end();
-    }
 }
