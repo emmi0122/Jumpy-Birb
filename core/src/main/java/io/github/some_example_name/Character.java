@@ -2,6 +2,7 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -18,11 +19,14 @@ public class Character {
     private float groundLevel = 0f;
     private boolean hasJumped = false;
     private boolean isOnSolidSurface = false;
+    private Sound jumpSound;
 
     public Character(Texture texture) {
         this.sprite = new Sprite(texture);
         this.sprite.setSize(80, 80);
         this.sprite.setPosition(270, 260);
+
+        jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump-sound.mp3"));
     }
 
     public void update(float delta, float worldHeight, Rectangle platformBounds) {
@@ -37,6 +41,8 @@ public class Character {
             verticalVelocity = jumpSpeed;
             hasJumped = true;
         }
+
+        jumpSound.play();
     }
 
     public boolean hasJumpedOnce() {
@@ -84,5 +90,9 @@ public class Character {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public void dispose() {
+        jumpSound.dispose();
     }
 }
