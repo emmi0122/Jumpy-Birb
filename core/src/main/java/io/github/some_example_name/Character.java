@@ -40,9 +40,9 @@ public class Character {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             verticalVelocity = jumpSpeed;
             hasJumped = true;
-        }
 
-        jumpSound.play();
+            jumpSound.play();
+        }
     }
 
     public boolean hasJumpedOnce() {
