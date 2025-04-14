@@ -68,6 +68,10 @@ public class Character {
         }
     }
 
+    public boolean isOnGround() {
+        return sprite.getY() <= groundLevel && !isOnSolidSurface;
+    }
+
     public Rectangle getBounds() {
         return new Rectangle(sprite.getX(), sprite.getY(), 60f, 60f);
     }

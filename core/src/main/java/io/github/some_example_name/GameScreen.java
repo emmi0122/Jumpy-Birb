@@ -112,6 +112,10 @@ public class GameScreen extends ScreenAdapter {
             gameOver();
         }
 
+        if (cat.isOnGround()) {
+            gameOver();
+        }
+
         spriteBatch.begin();
         drawBackground();
         platformSprite.draw(spriteBatch);
