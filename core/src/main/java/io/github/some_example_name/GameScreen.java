@@ -7,12 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class GameScreen extends ScreenAdapter {
-
+    private ShapeRenderer shapeRenderer;
     private Main game;
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -45,6 +46,8 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(1000, 600);
+
+        shapeRenderer = new ShapeRenderer();
 
         background = new Texture("Spooky-forest.png");
         catTexture = new Texture("Cat.png");
@@ -124,6 +127,10 @@ public class GameScreen extends ScreenAdapter {
         font.draw(spriteBatch, "Score: " + score.getCurrentScore(), 10, 590);
 
         spriteBatch.end();
+
+        shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
+
+        cat.drawDebug(shapeRenderer);
     }
 
     private void addPoints(float x, float y) {

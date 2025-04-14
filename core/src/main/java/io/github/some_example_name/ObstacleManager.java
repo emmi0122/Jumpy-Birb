@@ -1,7 +1,9 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -52,14 +54,16 @@ public class ObstacleManager {
         float chainHeight = MathUtils.random(100f, 190f);
         float postHeight = MathUtils.random(80f, 200f);
 
-        float topY = worldHeight - chainHeight;
+        float visualHeight = chainHeight - 10f;
+
+        float topY = worldHeight - visualHeight;
         float bottomY = 0;
 
         scoredObstacles.add(false);
 
-        topObstacles.add(new Rectangle(1000, topY, 100f, chainHeight));
-        bottomObstacles.add(new Rectangle(1000, bottomY, 100f, postHeight));
-        chainHeights.add(chainHeight);
+        topObstacles.add(new Rectangle(1000, topY, 40f, visualHeight));
+        bottomObstacles.add(new Rectangle(1000, bottomY, 40f, postHeight + 40f));
+        chainHeights.add(visualHeight);
         postHeights.add(postHeight);
     }
 
@@ -83,8 +87,11 @@ public class ObstacleManager {
             float chainHeight = chainHeights.get(i);
             float postHeight = postHeights.get(i);
 
-            batch.draw(chainTexture, top.x, top.y + 50f, 50f, chainHeight);
-            batch.draw(bladeTop, top.x, top.y, 50f, 50f);
+
+
+
+            batch.draw(chainTexture, top.x, top.y, 50f, chainHeight);
+            batch.draw(bladeTop, top.x, top.y - 10f, 50f, 50f);
 
             batch.draw(postTexture, bottom.x, bottom.y, 50f, postHeight);
             batch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 50f, 50f);

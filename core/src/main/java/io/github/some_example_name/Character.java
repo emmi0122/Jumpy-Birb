@@ -2,8 +2,10 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -78,5 +80,15 @@ public class Character {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public void drawDebug(ShapeRenderer shapeRenderer) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.CORAL); // valfri färg
+
+            shapeRenderer.rect(sprite.getX() + 20f, sprite.getY() + 20f, 35f, 35f);
+
+
+        shapeRenderer.end();
     }
 }
