@@ -20,6 +20,7 @@ public class Menu implements Screen {
     private Texture backgroundTexture;
     private Texture startTextTexture;
     private Music menuMusic;
+    private float alpha = 0f;
 
     public Menu(Main game) {
         this.game = game;
@@ -46,12 +47,16 @@ public class Menu implements Screen {
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
 
+        alpha += Gdx.graphics.getDeltaTime() * 0.5f;
+
+        if(alpha > 1f) alpha = 1f;
         spriteBatch.begin();
         spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        spriteBatch.draw(startTextTexture, 400, 100, 450, 400);
         spriteBatch.draw(platform, 200, 200, 200, 100);
         spriteBatch.draw(cat, 270, 264, 80, 80);
+        spriteBatch.setColor(1, 1, 1, alpha);
+        spriteBatch.draw(startTextTexture, 400, 100, 450, 400);
 
 
         spriteBatch.end();
