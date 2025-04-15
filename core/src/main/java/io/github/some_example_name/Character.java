@@ -41,7 +41,7 @@ public class Character {
             verticalVelocity = jumpSpeed;
             hasJumped = true;
 
-            jumpSound.play();
+            jumpSound.play(0.5f);
         }
     }
 

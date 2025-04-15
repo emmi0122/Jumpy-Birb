@@ -58,7 +58,7 @@ public class GameScreen extends ScreenAdapter {
         bladeTop = new Texture("blade_top.png");
         bladeBottom = new Texture("blade_bottom.png");
 
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("noxarcana.mp3"));
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("Darkest-Hour.mp3"));
         gameMusic.setLooping(true);
         gameMusic.setVolume(0.5f);
         gameMusic.play();
