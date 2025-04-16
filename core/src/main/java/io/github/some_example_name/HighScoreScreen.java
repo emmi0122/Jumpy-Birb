@@ -17,6 +17,9 @@ public class HighScoreScreen extends ScreenAdapter {
     private BitmapFont font;
     private Texture background;
 
+    private float inputDelay = 2f;
+    private float timeSinceShown = 0f;
+
     private int currentScore;
     private Score score;
 
@@ -44,6 +47,8 @@ public class HighScoreScreen extends ScreenAdapter {
         viewport.apply();
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
 
+        timeSinceShown += delta;
+
         spriteBatch.begin();
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
@@ -52,9 +57,14 @@ public class HighScoreScreen extends ScreenAdapter {
         font.draw(spriteBatch, "High Score: " + score.getHighScore(), 350, 330);
         font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
 
+        if (timeSinceShown >= inputDelay) {
+            font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
+        }
+
         spriteBatch.end();
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+        if (timeSinceShown >= inputDelay &&
+            (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))) {
             game.setScreen(new GameScreen(game));
         }
     }
