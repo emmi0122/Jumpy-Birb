@@ -5,11 +5,11 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -24,6 +24,8 @@ public class GameScreen extends ScreenAdapter {
     private Score score;
     private float lastObstacleX = -1;
 
+    private ParallaxBackground  parallaxBackground;
+    private BitmapFont font;
     private Texture background;
     private float backgroundX;
     private float backgroundSpeed;
@@ -57,6 +59,16 @@ public class GameScreen extends ScreenAdapter {
         postTexture = new Texture("large_post.png");
         bladeTop = new Texture("blade_top.png");
         bladeBottom = new Texture("blade_bottom.png");
+
+        Texture bg1 = new Texture("spooky-forest1.png");
+        Texture bg2 = new Texture("spooky-forest2.png");
+        Texture bg3 = new Texture("spooky-forest3.png");
+        parallaxBackground = new ParallaxBackground(
+            viewport.getWorldWidth(),
+            backgroundSpeed,
+            new TextureRegion(bg1),
+            new TextureRegion(bg2),
+            new TextureRegion(bg3));
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("Night-of-the-Streets.mp3"));
         gameMusic.setLooping(true);
@@ -126,7 +138,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         spriteBatch.begin();
-        drawBackground();
+        drawBackground(delta);
         platformSprite.draw(spriteBatch);
         cat.draw(spriteBatch);
 
@@ -145,20 +157,11 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    private void drawBackground() {
-        float worldWidth = viewport.getWorldWidth();
-        float worldHeight = viewport.getWorldHeight();
-
-        if(gameStarted) {
-            backgroundX -= backgroundSpeed * Gdx.graphics.getDeltaTime();
+    private void drawBackground(float delta) {
+        if (gameStarted) {
+            parallaxBackground.update(delta);
         }
-
-        if (backgroundX <= -worldWidth) {
-            backgroundX = 0;
-        }
-
-        spriteBatch.draw(background, backgroundX, 0, worldWidth, worldHeight);
-        spriteBatch.draw(background, backgroundX + worldWidth, 0, worldWidth, worldHeight);
+        parallaxBackground.render(spriteBatch);
     }
 
     //Sends player back to menu when losing
