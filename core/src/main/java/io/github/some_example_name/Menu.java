@@ -35,7 +35,7 @@ public class Menu implements Screen {
         cat = new Texture("Cat.png");
         platform = new Texture("plat.png");
 
-        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("adventure.mp3"));
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("Darkest-Hour.mp3"));
         menuMusic.setLooping(true);
         menuMusic.setVolume(0.5f);
         menuMusic.play();
