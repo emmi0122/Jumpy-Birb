@@ -60,7 +60,7 @@ public class GameScreen extends ScreenAdapter {
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("Night-of-the-Streets.mp3"));
         gameMusic.setLooping(true);
-        gameMusic.setVolume(0.5f);
+        gameMusic.setVolume(0.8f);
         gameMusic.play();
 
         platformSprite = new Sprite(platformTexture);

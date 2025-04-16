@@ -30,8 +30,9 @@ public class ObstacleManager {
     }
 
     public void update(float delta, float worldHeight, boolean gameStarted) {
-        if(!gameStarted) return;
+        if (!gameStarted) return;
         spawnTimer += delta;
+        Boolean rising = true;
 
         for (Rectangle r : topObstacles) {
             r.x -= OBSTACLE_SPEED * delta;
@@ -40,6 +41,12 @@ public class ObstacleManager {
         for (Rectangle r : bottomObstacles) {
             r.x -= OBSTACLE_SPEED * delta;
         }
+
+        for (Rectangle r : topObstacles) {
+            System.out.println(r.y);
+
+        }
+
 
         if (spawnTimer > OBSTACLE_SPAWN_TIME) {
             spawnObstacle(worldHeight);
@@ -88,8 +95,6 @@ public class ObstacleManager {
             float postHeight = postHeights.get(i);
 
 
-
-
             batch.draw(chainTexture, top.x, top.y, 50f, chainHeight);
             batch.draw(bladeTop, top.x, top.y - 10f, 50f, 50f);
 
@@ -124,8 +129,8 @@ public class ObstacleManager {
         return -1;
     }
 
-    public void markObstaclesAsScored(float x){
-        for(int i = 0; i < topObstacles.size; i++){
+    public void markObstaclesAsScored(float x) {
+        for (int i = 0; i < topObstacles.size; i++) {
             if (!scoredObstacles.get(i) && topObstacles.get(i).x == x) {
                 scoredObstacles.set(i, true);
                 break;
