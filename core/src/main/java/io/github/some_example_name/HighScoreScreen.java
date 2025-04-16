@@ -15,10 +15,14 @@ public class HighScoreScreen extends ScreenAdapter {
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
     private BitmapFont font;
+    private BitmapFont headerFont;
     private Texture background;
+    private Texture header;
+    private Texture bottomHeader;
 
     private float inputDelay = 2f;
     private float timeSinceShown = 0f;
+    private float alpha = 0f;
 
     private int currentScore;
     private Score score;
@@ -35,9 +39,15 @@ public class HighScoreScreen extends ScreenAdapter {
         viewport = new FitViewport(1000, 600);
 
         background = new Texture("Spooky-forest.png");
+        header = new Texture("header3.png");
+        bottomHeader = new Texture("header4.png");
+
+        headerFont = new BitmapFont();
+        headerFont.getData().setScale(4);
+        headerFont.setColor(Color.FIREBRICK);
 
         font = new BitmapFont();
-        font.getData().setScale(3);
+        font.getData().setScale(4);
         font.setColor(Color.WHITE);
     }
 
@@ -50,15 +60,23 @@ public class HighScoreScreen extends ScreenAdapter {
         timeSinceShown += delta;
 
         spriteBatch.begin();
-        spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        font.draw(spriteBatch, "Game Over", 350, 500);
-        font.draw(spriteBatch, "Score: " + currentScore, 350, 400);
-        font.draw(spriteBatch, "High Score: " + score.getHighScore(), 350, 330);
-        font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
+
+        spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+        spriteBatch.draw(header, 290, 240, 420, 370);
+
+        //headerFont.draw(spriteBatch, "Game Over", 350, 500);
+        font.draw(spriteBatch, "" + currentScore, 570, 425);
+        font.draw(spriteBatch, "" + score.getHighScore(), 610, 330);
+        //font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
 
         if (timeSinceShown >= inputDelay) {
-            font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
+            alpha += Gdx.graphics.getDeltaTime() * 0.5f;
+            if(alpha > 1f) alpha = 1f;
+            spriteBatch.setColor(1f, 1f, 1f, alpha);
+            spriteBatch.draw(bottomHeader, 200, 25, 580, 180);
+            spriteBatch.setColor(1f, 1f, 1f, 1f);
+            //font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
         }
 
         spriteBatch.end();
