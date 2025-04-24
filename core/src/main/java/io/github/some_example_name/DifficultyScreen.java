@@ -1,6 +1,8 @@
 package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +20,7 @@ public class DifficultyScreen extends ScreenAdapter {
     private BitmapFont font;
     private FitViewport viewport;
     private Texture background;
+    private Music difficultyScreenMusic;
 
     private Rectangle easyButton, normalButton, hardButton;
 
@@ -32,6 +35,10 @@ public class DifficultyScreen extends ScreenAdapter {
         font = new BitmapFont();
         font.getData().setScale(3f);
         font.setColor(Color.WHITE);
+        difficultyScreenMusic = Gdx.audio.newMusic(Gdx.files.internal("Darkest-Hour.mp3"));
+        difficultyScreenMusic.setLooping(true);
+        difficultyScreenMusic.setVolume(0.5f);
+        difficultyScreenMusic.play();
 
         background = new Texture("Spooky-forest.png");
 
@@ -65,12 +72,15 @@ public class DifficultyScreen extends ScreenAdapter {
             float y = viewport.getWorldHeight() -  Gdx.input.getY() * viewport.getWorldHeight() / Gdx.graphics.getHeight();
 
             if (easyButton.contains(x, y)) {
+                difficultyScreenMusic.stop();
                 game.setDifficulty(Difficulty.EASY);
                 game.startGame();
             } else if (normalButton.contains(x, y)) {
+                difficultyScreenMusic.stop();
                 game.setDifficulty(Difficulty.NORMAL);
                 game.startGame();
             }  else if (hardButton.contains(x, y)) {
+                difficultyScreenMusic.stop();
                 game.setDifficulty(Difficulty.HARD);
                 game.startGame();
             }
@@ -87,5 +97,6 @@ public class DifficultyScreen extends ScreenAdapter {
         spriteBatch.dispose();
         font.dispose();
         background.dispose();
+        if (difficultyScreenMusic != null) difficultyScreenMusic.dispose();
     }
 }
