@@ -42,9 +42,9 @@ public class DifficultyScreen extends ScreenAdapter {
 
         background = new Texture("Spooky-forest.png");
 
-        easyButton = new Rectangle(350, 400, 300, 80);
-        normalButton = new Rectangle(350, 290, 300, 80);
-        hardButton = new Rectangle(350, 180, 300, 80);
+        easyButton = new Rectangle(350, 340, 300, 80);
+        normalButton = new Rectangle(350, 230, 300, 80);
+        hardButton = new Rectangle(350, 120, 300, 80);
     }
 
     @Override

@@ -168,6 +168,7 @@ public class GameScreen extends ScreenAdapter {
 
     //Sends player back to menu when losing
     private void gameOver() {
+        if (gameMusic != null) gameMusic.stop();
         game.setScreen(new HighScoreScreen(game, score.getCurrentScore(), score.getHighScore()));
     }
 
