@@ -63,7 +63,7 @@ public class Menu implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             menuMusic.stop();
-            game.startGame();
+            game.setScreen(new DifficultyScreen(game));
         }
     }
 
