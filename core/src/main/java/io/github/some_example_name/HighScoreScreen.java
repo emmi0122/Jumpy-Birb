@@ -20,6 +20,7 @@ public class HighScoreScreen extends ScreenAdapter {
     private Texture header;
     private Texture bottomHeader;
 
+
     private float inputDelay = 2f;
     private float timeSinceShown = 0f;
     private float alpha = 0f;
@@ -83,7 +84,7 @@ public class HighScoreScreen extends ScreenAdapter {
 
         if (timeSinceShown >= inputDelay &&
             (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))) {
-            game.startGame();
+            game.setScreen(new Menu(game));
         }
     }
 

@@ -1,8 +1,10 @@
 package io.github.some_example_name;
 
-
 import com.badlogic.gdx.graphics.g2d.*;
 
+/**
+ * @author of this class is Hampus Ram
+ */
 public class ParallaxBackground {
     private TextureRegion[] bgLayers;
     private float[] parallaxSpeeds;
