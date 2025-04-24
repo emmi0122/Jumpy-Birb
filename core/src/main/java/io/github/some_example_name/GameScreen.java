@@ -23,9 +23,9 @@ public class GameScreen extends ScreenAdapter {
 
     private Score score;
     private float lastObstacleX = -1;
+    private Difficulty difficulty;
 
     private ParallaxBackground  parallaxBackground;
-    private BitmapFont font;
     private Texture background;
     private float backgroundX;
     private float backgroundSpeed;
@@ -43,8 +43,9 @@ public class GameScreen extends ScreenAdapter {
 
     private boolean gameStarted = false;
 
-    public GameScreen(Main game) {
+    public GameScreen(Main game, Difficulty difficulty) {
         this.game = game;
+        this.difficulty= difficulty;
     }
 
     @Override
@@ -63,6 +64,8 @@ public class GameScreen extends ScreenAdapter {
         Texture bg1 = new Texture("spooky-forest1.png");
         Texture bg2 = new Texture("spooky-forest2.png");
         Texture bg3 = new Texture("spooky-forest3.png");
+
+        backgroundSpeed = difficulty.obstacleSpeed * 0.9f;
         parallaxBackground = new ParallaxBackground(
             viewport.getWorldWidth(),
             backgroundSpeed,
@@ -80,10 +83,9 @@ public class GameScreen extends ScreenAdapter {
         platformSprite.setPosition(200, 200);
 
         backgroundX = 0;
-        backgroundSpeed = 150;
 
-        cat = new Character(catTexture);
-        obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom);
+        cat = new Character(catTexture, difficulty.gravity);
+        obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom, difficulty.obstacleSpeed, difficulty.spawnTime);
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);

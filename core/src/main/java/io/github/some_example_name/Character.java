@@ -21,10 +21,11 @@ public class Character {
     private boolean isOnSolidSurface = false;
     private Sound jumpSound;
 
-    public Character(Texture texture) {
+    public Character(Texture texture, float gravity) {
         this.sprite = new Sprite(texture);
         this.sprite.setSize(80, 80);
         this.sprite.setPosition(270, 260);
+        this.gravity = gravity;
 
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump-sound.mp3"));
     }

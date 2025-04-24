@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class ObstacleManager {
 
-    private static final float OBSTACLE_SPEED = 150f;
-    private static final float OBSTACLE_SPAWN_TIME = 3f;
+    private float obstacleSpeed;
+    private float obstacleSpawnTime;
 
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
@@ -22,11 +22,13 @@ public class ObstacleManager {
     private Array<Boolean> scoredObstacles = new Array<>();
     private float spawnTimer = 0;
 
-    public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom) {
+    public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom, float obstacleSpeed, float obstacleSpawnTime) {
         this.chainTexture = chain;
         this.postTexture = post;
         this.bladeTop = top;
         this.bladeBottom = bottom;
+        this.obstacleSpeed = obstacleSpeed;
+        this.obstacleSpawnTime = obstacleSpawnTime;
     }
 
     public void update(float delta, float worldHeight, boolean gameStarted) {
@@ -35,11 +37,11 @@ public class ObstacleManager {
         Boolean rising = true;
 
         for (Rectangle r : topObstacles) {
-            r.x -= OBSTACLE_SPEED * delta;
+            r.x -= obstacleSpeed * delta;
         }
 
         for (Rectangle r : bottomObstacles) {
-            r.x -= OBSTACLE_SPEED * delta;
+            r.x -= obstacleSpeed * delta;
         }
 
         for (Rectangle r : topObstacles) {
@@ -48,7 +50,7 @@ public class ObstacleManager {
         }
 
 
-        if (spawnTimer > OBSTACLE_SPAWN_TIME) {
+        if (spawnTimer > obstacleSpawnTime) {
             spawnObstacle(worldHeight);
             spawnTimer = 0;
         }

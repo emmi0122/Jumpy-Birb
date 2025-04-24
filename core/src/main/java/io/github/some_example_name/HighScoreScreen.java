@@ -83,7 +83,7 @@ public class HighScoreScreen extends ScreenAdapter {
 
         if (timeSinceShown >= inputDelay &&
             (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))) {
-            game.setScreen(new GameScreen(game));
+            game.startGame();
         }
     }
 
