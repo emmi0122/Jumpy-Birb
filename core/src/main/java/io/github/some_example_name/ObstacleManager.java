@@ -12,6 +12,8 @@ public class ObstacleManager {
 
     private float obstacleSpeed;
     private float obstacleSpawnTime;
+    private float chainHeight;
+    private float postHeight;
 
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
@@ -27,13 +29,16 @@ public class ObstacleManager {
     private Array<Float> oscillationOffset = new Array<>();
     private Array<Boolean> movingUp = new Array<>();
 
-    public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom, float obstacleSpeed, float obstacleSpawnTime) {
+    public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom,
+                           float obstacleSpeed, float obstacleSpawnTime, float chainHeight, float postHeight) {
         this.chainTexture = chain;
         this.postTexture = post;
         this.bladeTop = top;
         this.bladeBottom = bottom;
         this.obstacleSpeed = obstacleSpeed;
         this.obstacleSpawnTime = obstacleSpawnTime;
+        this.chainHeight = chainHeight;
+        this.postHeight = postHeight;
     }
 
     public void update(float delta, float worldHeight, boolean gameStarted) {
@@ -94,8 +99,8 @@ public class ObstacleManager {
 
     //method for random spawning of obstacles
     private void spawnObstacle(float worldHeight) {
-        float chainHeight = MathUtils.random(100f, 190f);
-        float postHeight = MathUtils.random(80f, 200f);
+//        float chainHeight = MathUtils.random(100f, 190f);
+//        float postHeight = MathUtils.random(80f, 200f);
 
         float visualHeight = chainHeight - 10f;
 
