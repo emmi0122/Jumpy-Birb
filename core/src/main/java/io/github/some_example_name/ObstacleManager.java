@@ -10,10 +10,10 @@ import com.badlogic.gdx.utils.Array;
 
 public class ObstacleManager {
 
+    private Difficulty difficulty;
+
     private float obstacleSpeed;
     private float obstacleSpawnTime;
-    private float chainHeight;
-    private float postHeight;
 
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
@@ -30,15 +30,14 @@ public class ObstacleManager {
     private Array<Boolean> movingUp = new Array<>();
 
     public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom,
-                           float obstacleSpeed, float obstacleSpawnTime, float chainHeight, float postHeight) {
+                           float obstacleSpeed, float obstacleSpawnTime, Difficulty difficulty) {
         this.chainTexture = chain;
         this.postTexture = post;
         this.bladeTop = top;
         this.bladeBottom = bottom;
         this.obstacleSpeed = obstacleSpeed;
         this.obstacleSpawnTime = obstacleSpawnTime;
-        this.chainHeight = chainHeight;
-        this.postHeight = postHeight;
+        this.difficulty = difficulty;
     }
 
     public void update(float delta, float worldHeight, boolean gameStarted) {
@@ -99,11 +98,27 @@ public class ObstacleManager {
 
     //method for random spawning of obstacles
     private void spawnObstacle(float worldHeight) {
-//        float chainHeight = MathUtils.random(100f, 190f);
-//        float postHeight = MathUtils.random(80f, 200f);
+        float chainHeight, postHeight;
+        switch (difficulty) {
+            case EASY:
+                chainHeight = MathUtils.random(100f, 160f);
+                postHeight = MathUtils.random(80f, 140f);
+                break;
+            case NORMAL:
+                chainHeight = MathUtils.random(120f, 190f);
+                postHeight = MathUtils.random(90f, 180f);
+                break;
+            case HARD:
+                chainHeight = MathUtils.random(150f, 220f);
+                postHeight = MathUtils.random(100f, 200f);
+                break;
+            default:
+                chainHeight = MathUtils.random(100f, 160f);
+                postHeight = MathUtils.random(80f, 140f);
+        }
 
+        System.out.println(chainHeight);
         float visualHeight = chainHeight - 10f;
-
         float topY = worldHeight - visualHeight;
         float bottomY = 0;
 
