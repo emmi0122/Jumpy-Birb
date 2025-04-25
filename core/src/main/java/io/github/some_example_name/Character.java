@@ -21,8 +21,16 @@ public class Character {
     private boolean isOnSolidSurface = false;
     private Sound jumpSound;
 
+    private Texture catTexture;
+    private Texture catJumpTexture;
+
+    private float textureTimer = 0f;
+    private final float JUMP_TEXTURE_DURATION = 0.3f;
+
     public Character(Texture texture, float gravity) {
-        this.sprite = new Sprite(texture);
+        this.catTexture = new Texture("Cat.png");
+        this.catJumpTexture = new Texture("katt2.png");
+        this.sprite = new Sprite(catTexture);
         this.sprite.setSize(80, 80);
         this.sprite.setPosition(270, 260);
         this.gravity = gravity;
@@ -35,6 +43,13 @@ public class Character {
         applyGravity(delta);
         clampPosition(worldHeight);
         handlePlatformCollision(platformBounds);
+
+        if (textureTimer > 0) {
+            textureTimer -= delta;
+            if (textureTimer <= 0) {
+                sprite.setTexture(catTexture);
+            }
+        }
     }
 
     private void handleInput() {
@@ -43,6 +58,9 @@ public class Character {
             hasJumped = true;
 
             jumpSound.play(0.5f);
+
+            sprite.setTexture(catJumpTexture);
+            textureTimer = JUMP_TEXTURE_DURATION;
         }
     }
 
@@ -94,6 +112,8 @@ public class Character {
     }
 
     public void dispose() {
+        catTexture.dispose();
+        catJumpTexture.dispose();
         jumpSound.dispose();
     }
 }
