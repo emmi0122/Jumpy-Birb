@@ -85,7 +85,7 @@ public class GameScreen extends ScreenAdapter {
         backgroundX = 0;
 
         cat = new Character(catTexture, difficulty.gravity);
-        obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom, difficulty.obstacleSpeed, difficulty.spawnTime, difficulty.chainHeight, difficulty.postHeight);
+        obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom, difficulty.obstacleSpeed, difficulty.spawnTime, difficulty);
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);
