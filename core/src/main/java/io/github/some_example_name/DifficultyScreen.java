@@ -20,6 +20,10 @@ public class DifficultyScreen extends ScreenAdapter {
     private BitmapFont font;
     private FitViewport viewport;
     private Texture background;
+    private Texture select;
+    private Texture easy;
+    private Texture medium;
+    private Texture hard;
     private Music difficultyScreenMusic;
 
     private Rectangle easyButton, normalButton, hardButton;
@@ -41,10 +45,14 @@ public class DifficultyScreen extends ScreenAdapter {
         difficultyScreenMusic.play();
 
         background = new Texture("Spooky-forest.png");
+        select = new Texture("select-difficulty.png");
+        easy = new Texture("easy.png");
+        medium = new Texture("medium.png");
+        hard = new Texture("hard.png");
 
-        easyButton = new Rectangle(350, 340, 300, 80);
-        normalButton = new Rectangle(350, 230, 300, 80);
-        hardButton = new Rectangle(350, 120, 300, 80);
+        easyButton = new Rectangle(400, 300, 200, 80);
+        normalButton = new Rectangle(400, 200, 200, 80);
+        hardButton = new Rectangle(400, 100, 200, 80);
     }
 
     @Override
@@ -56,10 +64,10 @@ public class DifficultyScreen extends ScreenAdapter {
         spriteBatch.begin();
 
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-        font.draw(spriteBatch, "Select difficulty", 340, 520);
-        font.draw(spriteBatch, "Easy", easyButton.x +60, easyButton.y +60);
-        font.draw(spriteBatch, "Normal", normalButton.x +60, normalButton.y +60);
-        font.draw(spriteBatch, "Hard", hardButton.x +60, hardButton.y +60);
+        spriteBatch.draw(select, 300, 350, 350f, 250f);
+        spriteBatch.draw(easy, easyButton.x, easyButton.y, 150f, 70f);
+        spriteBatch.draw(medium, normalButton.x + 10f, normalButton.y, 150f, 70f);
+        spriteBatch.draw(hard, hardButton.x + 20f, hardButton.y, 120f, 50f);
 
         spriteBatch.end();
 
@@ -97,6 +105,7 @@ public class DifficultyScreen extends ScreenAdapter {
         spriteBatch.dispose();
         font.dispose();
         background.dispose();
+        select.dispose();
         if (difficultyScreenMusic != null) difficultyScreenMusic.dispose();
     }
 }
