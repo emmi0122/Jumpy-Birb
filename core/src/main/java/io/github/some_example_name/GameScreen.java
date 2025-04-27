@@ -2,6 +2,7 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
@@ -36,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
     private Character cat;
+    private Sound catCollisionSound;
     private ObstacleManager obstacleManager;
 
     private BitmapFont font;
@@ -77,6 +79,8 @@ public class GameScreen extends ScreenAdapter {
         gameMusic.setLooping(true);
         gameMusic.setVolume(0.8f);
         gameMusic.play();
+
+        catCollisionSound = Gdx.audio.newSound(Gdx.files.internal("Meow.mp3"));
 
         platformSprite = new Sprite(platformTexture);
         platformSprite.setSize(200, 100);
@@ -132,10 +136,12 @@ public class GameScreen extends ScreenAdapter {
 
         //Check to see if Cat collides
         if (obstacleManager.checkCollision(cat.getBounds())) {
+            catCollisionSound.play(0.5f);
             gameOver();
         }
 
         if (cat.isOnGround()) {
+            catCollisionSound.play(0.5f);
             gameOver();
         }
 
@@ -188,5 +194,6 @@ public class GameScreen extends ScreenAdapter {
         bladeTop.dispose();
         bladeBottom.dispose();
         if (gameMusic != null) gameMusic.dispose();
+        if (catCollisionSound != null) catCollisionSound.dispose();
     }
 }
