@@ -193,7 +193,7 @@ public class GameScreen extends ScreenAdapter {
         postTexture.dispose();
         bladeTop.dispose();
         bladeBottom.dispose();
-        if (gameMusic != null) gameMusic.dispose();
-        if (catCollisionSound != null) catCollisionSound.dispose();
+        gameMusic.dispose();
+        catCollisionSound.dispose();
     }
 }
