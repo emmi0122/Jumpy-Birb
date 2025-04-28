@@ -22,6 +22,7 @@ public class HighScoreScreen extends ScreenAdapter {
     private Texture bottomHeader;
     private Texture changeDifficulty;
     private Rectangle difficultyButton;
+    private Rectangle startAgainButton;
     private GameScreen gameScreen;
 
 
@@ -57,6 +58,7 @@ public class HighScoreScreen extends ScreenAdapter {
 
         changeDifficulty = new Texture("change-difficulty.png");
         difficultyButton = new Rectangle(50, 50, 100, 50);
+        startAgainButton = new Rectangle(200, 25, 580, 180);
     }
 
     @Override
@@ -82,12 +84,16 @@ public class HighScoreScreen extends ScreenAdapter {
             spriteBatch.setColor(1f, 1f, 1f, alpha);
             spriteBatch.draw(bottomHeader, 200, 25, 580, 180);
             spriteBatch.setColor(1f, 1f, 1f, 1f);
+            handleInputClick();
         }
 
         spriteBatch.end();
 
+        float x = Gdx.input.getX() * viewport.getWorldWidth() / Gdx.graphics.getWidth();
+        float y = viewport.getWorldHeight() -  Gdx.input.getY() * viewport.getWorldHeight() / Gdx.graphics.getHeight();
+
         if (timeSinceShown >= inputDelay &&
-            (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))) {
+            (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))) {
             game.startGame();
         }
 
@@ -102,6 +108,17 @@ public class HighScoreScreen extends ScreenAdapter {
             if (difficultyButton.contains(x, y)) {
                 game.setScreen(new DifficultyScreen(game));
                 dispose();
+            }
+        }
+    }
+
+    private void handleInputClick() {
+        if (Gdx.input.justTouched()) {
+            float x = Gdx.input.getX() * viewport.getWorldWidth() / Gdx.graphics.getWidth();
+            float y = viewport.getWorldHeight() -  Gdx.input.getY() * viewport.getWorldHeight() / Gdx.graphics.getHeight();
+
+            if (startAgainButton.contains(x, y)) {
+                game.startGame();
             }
         }
     }
