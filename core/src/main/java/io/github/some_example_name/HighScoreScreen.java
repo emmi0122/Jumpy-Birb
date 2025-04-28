@@ -101,6 +101,7 @@ public class HighScoreScreen extends ScreenAdapter {
 
             if (difficultyButton.contains(x, y)) {
                 game.setScreen(new DifficultyScreen(game));
+                dispose();
             }
         }
     }
