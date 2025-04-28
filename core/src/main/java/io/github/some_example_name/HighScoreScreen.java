@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -19,6 +20,10 @@ public class HighScoreScreen extends ScreenAdapter {
     private Texture background;
     private Texture header;
     private Texture bottomHeader;
+    private Texture changeDifficulty;
+    private Rectangle difficultyButton;
+    private GameScreen gameScreen;
+
 
     private float inputDelay = 2f;
     private float timeSinceShown = 0f;
@@ -49,6 +54,9 @@ public class HighScoreScreen extends ScreenAdapter {
         font = new BitmapFont();
         font.getData().setScale(4);
         font.setColor(Color.WHITE);
+
+        changeDifficulty = new Texture("change-difficulty.png");
+        difficultyButton = new Rectangle(50, 50, 100, 50);
     }
 
     @Override
@@ -61,14 +69,12 @@ public class HighScoreScreen extends ScreenAdapter {
 
         spriteBatch.begin();
 
-
         spriteBatch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         spriteBatch.draw(header, 290, 240, 420, 370);
+        spriteBatch.draw(changeDifficulty, difficultyButton.x, difficultyButton.y, 100, 50);
 
-        //headerFont.draw(spriteBatch, "Game Over", 350, 500);
         font.draw(spriteBatch, "" + currentScore, 570, 425);
         font.draw(spriteBatch, "" + score.getHighScore(), 610, 330);
-        //font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
 
         if (timeSinceShown >= inputDelay) {
             alpha += Gdx.graphics.getDeltaTime() * 0.5f;
@@ -76,7 +82,6 @@ public class HighScoreScreen extends ScreenAdapter {
             spriteBatch.setColor(1f, 1f, 1f, alpha);
             spriteBatch.draw(bottomHeader, 200, 25, 580, 180);
             spriteBatch.setColor(1f, 1f, 1f, 1f);
-            //font.draw(spriteBatch, "Try again: Press SPACE or CLICK", 250, 200);
         }
 
         spriteBatch.end();
@@ -84,6 +89,19 @@ public class HighScoreScreen extends ScreenAdapter {
         if (timeSinceShown >= inputDelay &&
             (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))) {
             game.startGame();
+        }
+
+        handleInput();
+    }
+
+    private void handleInput() {
+        if (Gdx.input.justTouched()) {
+            float x = Gdx.input.getX() * viewport.getWorldWidth() / Gdx.graphics.getWidth();
+            float y = viewport.getWorldHeight() -  Gdx.input.getY() * viewport.getWorldHeight() / Gdx.graphics.getHeight();
+
+            if (difficultyButton.contains(x, y)) {
+                game.setScreen(new DifficultyScreen(game));
+            }
         }
     }
 

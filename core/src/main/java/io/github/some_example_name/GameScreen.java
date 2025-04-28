@@ -2,6 +2,7 @@ package io.github.some_example_name;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
@@ -36,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
     private Texture chainTexture, postTexture, bladeTop, bladeBottom;
 
     private Character cat;
+    private Sound catCollisionSound;
     private ObstacleManager obstacleManager;
 
     private BitmapFont font;
@@ -78,6 +80,8 @@ public class GameScreen extends ScreenAdapter {
         gameMusic.setVolume(0.8f);
         gameMusic.play();
 
+        catCollisionSound = Gdx.audio.newSound(Gdx.files.internal("Meow.mp3"));
+
         platformSprite = new Sprite(platformTexture);
         platformSprite.setSize(200, 100);
         platformSprite.setPosition(200, 200);
@@ -85,7 +89,7 @@ public class GameScreen extends ScreenAdapter {
         backgroundX = 0;
 
         cat = new Character(catTexture, difficulty.gravity);
-        obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom, difficulty.obstacleSpeed, difficulty.spawnTime);
+        obstacleManager = new ObstacleManager(chainTexture, postTexture, bladeTop, bladeBottom, difficulty.obstacleSpeed, difficulty.spawnTime, difficulty);
 
         font = new BitmapFont();
         font.setColor(Color.WHITE);
@@ -132,10 +136,12 @@ public class GameScreen extends ScreenAdapter {
 
         //Check to see if Cat collides
         if (obstacleManager.checkCollision(cat.getBounds())) {
+            catCollisionSound.play(0.5f);
             gameOver();
         }
 
         if (cat.isOnGround()) {
+            catCollisionSound.play(0.5f);
             gameOver();
         }
 
@@ -168,6 +174,7 @@ public class GameScreen extends ScreenAdapter {
 
     //Sends player back to menu when losing
     private void gameOver() {
+        if (gameMusic != null) gameMusic.stop();
         game.setScreen(new HighScoreScreen(game, score.getCurrentScore(), score.getHighScore()));
     }
 
@@ -186,6 +193,7 @@ public class GameScreen extends ScreenAdapter {
         postTexture.dispose();
         bladeTop.dispose();
         bladeBottom.dispose();
-        if (gameMusic != null) gameMusic.dispose();
+        gameMusic.dispose();
+        catCollisionSound.dispose();
     }
 }

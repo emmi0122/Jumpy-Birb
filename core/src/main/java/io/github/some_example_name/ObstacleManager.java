@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class ObstacleManager {
 
+    private Difficulty difficulty;
+
     private float obstacleSpeed;
     private float obstacleSpawnTime;
 
@@ -22,13 +24,20 @@ public class ObstacleManager {
     private Array<Boolean> scoredObstacles = new Array<>();
     private float spawnTimer = 0;
 
-    public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom, float obstacleSpeed, float obstacleSpawnTime) {
+    private Array<Float> originalTopY = new Array<>();
+    private Array<Float> originalBottomHeight = new Array<>();
+    private Array<Float> oscillationOffset = new Array<>();
+    private Array<Boolean> movingUp = new Array<>();
+
+    public ObstacleManager(Texture chain, Texture post, Texture top, Texture bottom,
+                           float obstacleSpeed, float obstacleSpawnTime, Difficulty difficulty) {
         this.chainTexture = chain;
         this.postTexture = post;
         this.bladeTop = top;
         this.bladeBottom = bottom;
         this.obstacleSpeed = obstacleSpeed;
         this.obstacleSpawnTime = obstacleSpawnTime;
+        this.difficulty = difficulty;
     }
 
     public void update(float delta, float worldHeight, boolean gameStarted) {
@@ -44,9 +53,38 @@ public class ObstacleManager {
             r.x -= obstacleSpeed * delta;
         }
 
-        for (Rectangle r : topObstacles) {
-            System.out.println(r.y);
+        for (int i = 0; i < topObstacles.size; i++) {
+            Rectangle top = topObstacles.get(i);
+            Rectangle bottom = bottomObstacles.get(i);
 
+            float offset = oscillationOffset.get(i);
+            boolean up = movingUp.get(i);
+            float moveAmount = 20f * delta;
+
+            if (up) {
+                offset += moveAmount;
+                if (offset >= 10f) {
+                    offset = 10f;
+                    movingUp.set(i, false);
+                }
+            } else {
+                offset -= moveAmount;
+                if (offset <= -10f) {
+                    offset = -10f;
+                    movingUp.set(i, true);
+                }
+            }
+
+            // Uppdatera offset
+            oscillationOffset.set(i, offset);
+
+            float newTopY = originalTopY.get(i) + offset;
+            top.y = newTopY;
+
+            float originalHeight = originalBottomHeight.get(i);
+            float newBottomY = offset;
+            bottom.setPosition(bottom.x, newBottomY);
+            bottom.setSize(bottom.width, originalHeight + 40f);
         }
 
 
@@ -60,11 +98,27 @@ public class ObstacleManager {
 
     //method for random spawning of obstacles
     private void spawnObstacle(float worldHeight) {
-        float chainHeight = MathUtils.random(100f, 190f);
-        float postHeight = MathUtils.random(80f, 200f);
+        float chainHeight, postHeight;
+        switch (difficulty) {
+            case EASY:
+                chainHeight = MathUtils.random(100f, 160f);
+                postHeight = MathUtils.random(80f, 140f);
+                break;
+            case NORMAL:
+                chainHeight = MathUtils.random(120f, 190f);
+                postHeight = MathUtils.random(90f, 180f);
+                break;
+            case HARD:
+                chainHeight = MathUtils.random(150f, 220f);
+                postHeight = MathUtils.random(100f, 200f);
+                break;
+            default:
+                chainHeight = MathUtils.random(100f, 160f);
+                postHeight = MathUtils.random(80f, 140f);
+        }
 
+        System.out.println(chainHeight);
         float visualHeight = chainHeight - 10f;
-
         float topY = worldHeight - visualHeight;
         float bottomY = 0;
 
@@ -74,6 +128,11 @@ public class ObstacleManager {
         bottomObstacles.add(new Rectangle(1000, bottomY, 40f, postHeight + 40f));
         chainHeights.add(visualHeight);
         postHeights.add(postHeight);
+
+        originalTopY.add(worldHeight - chainHeight + 10f);
+        originalBottomHeight.add(postHeight);
+        oscillationOffset.add(0f);
+        movingUp.add(true);
     }
 
     //method for removing obstacles that passed the left edge of the screen
@@ -85,6 +144,10 @@ public class ObstacleManager {
                 chainHeights.removeIndex(i);
                 postHeights.removeIndex(i);
                 scoredObstacles.removeIndex(i);
+                originalTopY.removeIndex(i);
+                originalBottomHeight.removeIndex(i);
+                oscillationOffset.removeIndex(i);
+                movingUp.removeIndex(i);
             }
         }
     }
@@ -97,10 +160,10 @@ public class ObstacleManager {
             float postHeight = postHeights.get(i);
 
 
-            batch.draw(chainTexture, top.x, top.y, 50f, chainHeight);
+            batch.draw(chainTexture, top.x, top.y, 50f, chainHeight + 50f);
             batch.draw(bladeTop, top.x, top.y - 10f, 50f, 50f);
 
-            batch.draw(postTexture, bottom.x, bottom.y, 50f, postHeight);
+            batch.draw(postTexture, bottom.x, bottom.y - 50f, 50f, postHeight + 50f);
             batch.draw(bladeBottom, bottom.x, bottom.y + postHeight, 50f, 50f);
         }
     }
